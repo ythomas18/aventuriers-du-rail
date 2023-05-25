@@ -86,6 +86,8 @@ public class RailsIHM extends Application {
         }
     }
 
+
+
     public Jeu getJeu() {
         return jeu;
     }
