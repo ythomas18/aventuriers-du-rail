@@ -107,5 +107,6 @@ public class VueDuJeu extends VBox {
     }
 
     EventHandler<? super MouseEvent> actionPasserParDefaut = (mouseEvent -> getJeu().passerAEteChoisi());
+    /////
 
 }
