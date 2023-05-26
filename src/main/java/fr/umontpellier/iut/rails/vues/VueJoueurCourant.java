@@ -1,7 +1,6 @@
 package fr.umontpellier.iut.rails.vues;
 
 import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 /**
@@ -12,9 +11,13 @@ import javafx.scene.layout.VBox;
 public class VueJoueurCourant extends VBox {
     private Label nomJoueur;
 
-    public VueJoueurCourant() {
+    public VueJoueurCourant(String nom_du_joueur) {
         this.nomJoueur = new Label();
 
         this.getChildren().add(this.nomJoueur);
+    }
+
+    public void creerBindings(){
+
     }
 }

@@ -80,7 +80,8 @@ public class VueDuJeu extends VBox {
 
         jeu.destinationsInitialesProperty().addListener(toto);
 
-
+        VueJoueurCourant vueJoueurCourant= new VueJoueurCourant("Nom du joueur");
+        plateau.getChildren().addAll(vueJoueurCourant);
     }
 
     public Label removeDestination(IDestination destination){
@@ -107,6 +108,6 @@ public class VueDuJeu extends VBox {
     }
 
     EventHandler<? super MouseEvent> actionPasserParDefaut = (mouseEvent -> getJeu().passerAEteChoisi());
-    /////
+
 
 }
