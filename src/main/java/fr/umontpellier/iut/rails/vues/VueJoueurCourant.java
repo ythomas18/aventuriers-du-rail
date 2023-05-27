@@ -17,7 +17,4 @@ public class VueJoueurCourant extends VBox {
         this.getChildren().add(this.nomJoueur);
     }
 
-    public void creerBindings(){
-
-    }
 }

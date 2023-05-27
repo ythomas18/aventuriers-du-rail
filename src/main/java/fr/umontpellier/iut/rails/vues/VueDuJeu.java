@@ -46,18 +46,12 @@ public class VueDuJeu extends VBox {
                 }
             }
         }
-
-
-
-
-
-
     };
 
     public VueDuJeu(IJeu jeu) {
         this.jeu = jeu;
         plateau = new VuePlateau();
-        //getChildren().add(plateau);
+        getChildren().add(plateau);
         Label labelDestinationInitiale = new Label();
         Button btnPasser = new Button("Passer");
 
