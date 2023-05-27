@@ -7,6 +7,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.beans.value.WeakChangeListener;
 import javafx.collections.ListChangeListener;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -51,7 +52,7 @@ public class VueDuJeu extends VBox {
     public VueDuJeu(IJeu jeu) {
         this.jeu = jeu;
         plateau = new VuePlateau();
-        getChildren().add(plateau);
+        this.getChildren().add(plateau);
         Label labelDestinationInitiale = new Label();
         Button btnPasser = new Button("Passer");
 
@@ -93,6 +94,9 @@ public class VueDuJeu extends VBox {
         plateau.prefWidthProperty().bind(getScene().widthProperty());
         plateau.prefHeightProperty().bind(getScene().heightProperty());
         plateau.creerBindings();
+        VueJoueurCourant vueJoueurCourant= new VueJoueurCourant("Nom joueur");
+        vueJoueurCourant.creerBindings(jeu);
+        plateau.getChildren().addAll(vueJoueurCourant);
 
 
     }
