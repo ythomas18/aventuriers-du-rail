@@ -4,6 +4,7 @@ import fr.umontpellier.iut.rails.mecanique.Jeu;
 import fr.umontpellier.iut.rails.vues.DonneesGraphiques;
 import fr.umontpellier.iut.rails.vues.VueChoixJoueurs;
 import fr.umontpellier.iut.rails.vues.VueDuJeu;
+import fr.umontpellier.iut.rails.vues.VueJoueurCourant;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
@@ -41,6 +42,7 @@ public class RailsIHM extends Application {
         }
     }
 
+
     public void demarrerPartie() {
         List<String> nomsJoueurs;
         if (avecVueChoixJoueurs)
@@ -52,6 +54,7 @@ public class RailsIHM extends Application {
             nomsJoueurs.add("LeChuck");
             nomsJoueurs.add("Elaine");
         }
+
         jeu = new Jeu(nomsJoueurs.toArray(new String[0]));
         VueDuJeu vueDuJeu = new VueDuJeu(jeu);
         Scene scene = new Scene(vueDuJeu, Screen.getPrimary().getBounds().getWidth() * DonneesGraphiques.pourcentageEcran, Screen.getPrimary().getBounds().getHeight() * DonneesGraphiques.pourcentageEcran); // la scene doit être créée avant de mettre en place les bindings

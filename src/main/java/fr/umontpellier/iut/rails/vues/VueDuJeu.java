@@ -1,9 +1,7 @@
 package fr.umontpellier.iut.rails.vues;
 
-import fr.umontpellier.iut.rails.ICarteTransport;
 import fr.umontpellier.iut.rails.IDestination;
 import fr.umontpellier.iut.rails.IJeu;
-import fr.umontpellier.iut.rails.mecanique.data.CarteTransport;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.value.WeakChangeListener;
@@ -35,9 +33,6 @@ public class VueDuJeu extends VBox {
     private VuePlateau plateau;
 
     private VBox listeDestination;
-    private VueCarteTransport carteTransportVisible;
-
-
 
 
 
@@ -55,27 +50,16 @@ public class VueDuJeu extends VBox {
         }
     };
 
-    private final ListChangeListener<ICarteTransport> CarteTransportVisibleListener = change -> {
-        while (change.next()){
-            if (change.wasAdded()){
-                for (ICarteTransport iCarteTransport : change.getAddedSubList()){
-                    carteTransportVisible.getChildren().add(new Label(iCarteTransport.getStringCouleur()));
-                }
-            }else if (change.wasRemoved()){
-                for (ICarteTransport iCarteTransport : change.getRemoved()){
-                    carteTransportVisible.getChildren().remove(removeCarteTransport(iCarteTransport));
-                }
-            }
-        }
-
-    };
-
     public VueDuJeu(IJeu jeu) {
         this.jeu = jeu;
         plateau = new VuePlateau();
+        HBox hBox= new HBox();
+        VueJoueurCourant vueJoueurCourant= new VueJoueurCourant("Nom joueur");
+        //plateau.getChildren().add(vueJoueurCourant);
+        vueJoueurCourant.creerBindings(jeu);
+        hBox.getChildren().addAll(plateau, vueJoueurCourant);
+        this.getChildren().add(hBox);
 
-        HBox hboxPlateauEtJoueur = new HBox();
-        hboxPlateauEtJoueur.setMaxSize(1000, 1000);
 
 
         Label labelDestinationInitiale = new Label();
@@ -88,17 +72,7 @@ public class VueDuJeu extends VBox {
 
         this.listeDestination = new VBox();
 
-
-
-
-
-
-
-
-
-
-
-
+        this.getChildren().addAll(lblInstructions, btnPasser,listeDestination);
 
         EventHandler<MouseEvent> btnPasserHandlerClick = MouseEvent -> {
             jeu.passerAEteChoisi();
@@ -106,14 +80,7 @@ public class VueDuJeu extends VBox {
 
         btnPasser.setOnMouseClicked(btnPasserHandlerClick);
 
-
-
         jeu.destinationsInitialesProperty().addListener(toto);
-
-        VueJoueurCourant vueJoueurCourant= new VueJoueurCourant("Nom du joueur");
-        hboxPlateauEtJoueur.getChildren().addAll(plateau, vueJoueurCourant);
-        hboxPlateauEtJoueur.alignmentProperty().setValue(Pos.CENTER);
-        this.getChildren().addAll(hboxPlateauEtJoueur, lblInstructions, btnPasser);
 
 
 
@@ -130,23 +97,11 @@ public class VueDuJeu extends VBox {
 
     }
 
-    public Label removeCarteTransport(ICarteTransport carteTransport){
-        for(Node n : carteTransportVisible.getChildren()){
-            Label labelCarteTransport = (Label) n;
-            if(labelCarteTransport.getText().equals(carteTransport.getStringCouleur())){
-                return labelCarteTransport;
-            }
-        }
-        return null;
-    }
-
     public void creerBindings() {
         plateau.prefWidthProperty().bind(getScene().widthProperty());
         plateau.prefHeightProperty().bind(getScene().heightProperty());
         plateau.creerBindings();
-        VueJoueurCourant vueJoueurCourant= new VueJoueurCourant("Nom joueur");
-        vueJoueurCourant.creerBindings(jeu);
-        plateau.getChildren().addAll(vueJoueurCourant);
+
 
 
     }

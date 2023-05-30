@@ -2,8 +2,10 @@ package fr.umontpellier.iut.rails.vues;
 
 import fr.umontpellier.iut.rails.ICarteTransport;
 import fr.umontpellier.iut.rails.IJeu;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.TextAlignment;
 
 import java.util.List;
 
@@ -20,17 +22,15 @@ public class VueJoueurCourant extends VBox {
     public VueJoueurCourant(String nom_du_joueur) {
         this.nomJoueur = new Label();
         this.CarteJoueurCourant= new VBox();
-        CarteJoueurCourant.getChildren().addAll();
-        this.getChildren().addAll(this.nomJoueur,CarteJoueurCourant);
+        CarteJoueurCourant.setAlignment(Pos.CENTER_RIGHT);
+        this.getChildren().addAll( nomJoueur, CarteJoueurCourant);
 
     }
 
     public void creerBindings(IJeu jeu) {
         jeu.joueurCourantProperty().addListener((observableValue, ancienJoueur, nouveauJoueur) ->
         nomJoueur.setText(nouveauJoueur.getNom()));
-        supprimerCarte();
-
-
+        //supprimerCarte();
 
 
     }
