@@ -84,10 +84,16 @@ public class VueDuJeu extends VBox {
 
         jeu.destinationsInitialesProperty().addListener(toto);
 
-        //HBox bas= new HBox();
-        //bas.setAlignment(Pos.TOP_LEFT);
-        this.getChildren().addAll( btnPasser,lblInstructions,listeDestination);
-        //this.getChildren().add(bas);
+        HBox bas= new HBox();
+        VBox vBox= new VBox();
+        bas.getChildren().add(btnPasser);
+        vBox.getChildren().addAll(bas, lblInstructions, listeDestination);
+        vBox.setPadding(new javafx.geometry.Insets(10, 10, 10, 10));
+        vBox.setMinSize(300,220);
+        vBox.setMaxSize(300,220);
+        this.getChildren().addAll(vBox);
+
+
 
 
 
