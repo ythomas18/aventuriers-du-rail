@@ -5,6 +5,8 @@ import fr.umontpellier.iut.rails.IJeu;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.util.List;
@@ -19,11 +21,15 @@ public class VueJoueurCourant extends VBox {
 
     private VBox CarteJoueurCourant;
 
+    private GridPane rangementCartes;
+
+
     public VueJoueurCourant(String nom_du_joueur) {
         this.nomJoueur = new Label();
         this.CarteJoueurCourant= new VBox();
         CarteJoueurCourant.setAlignment(Pos.CENTER_RIGHT);
         this.getChildren().addAll( nomJoueur, CarteJoueurCourant);
+        CarteJoueurCourant.setSpacing(5);
 
     }
 
@@ -53,8 +59,12 @@ public class VueJoueurCourant extends VBox {
             ImageView lbCarte = new ImageView("/images/cartesWagons/" + getImagePourCarte(carteTransport));
             lbCarte.setPreserveRatio(true);
             lbCarte.setFitHeight(65);
-            CarteJoueurCourant.getChildren().addAll(lbCarte);
+
+            CarteJoueurCourant.getChildren().add(lbCarte);
+
+
         }
+
     }
 
     public void supprimerCarte(){
