@@ -33,12 +33,16 @@ public class VueChoixJoueurs extends Stage {
     /**
      * Définit l'action à exécuter lorsque la liste des participants est correctement initialisée
      */
-    public void setNomsDesJoueursDefinisListener(ListChangeListener<String> quandLesNomsDesJoueursSontDefinis) {}
+    public void setNomsDesJoueursDefinisListener(ListChangeListener<String> quandLesNomsDesJoueursSontDefinis) {
+        nomsJoueurs.addListener(quandLesNomsDesJoueursSontDefinis);
+    }
 
     /**
      * Définit l'action à exécuter lorsque le nombre de participants change
      */
-    protected void setChangementDuNombreDeJoueursListener(ChangeListener<Integer> quandLeNombreDeJoueursChange) {}
+    protected void setChangementDuNombreDeJoueursListener(ChangeListener<Integer> quandLeNombreDeJoueursChange) {
+        nomsJoueurs.addListener((ListChangeListener<String>) change -> quandLeNombreDeJoueursChange.changed(null, null, getNombreDeJoueurs()));
+    }
 
     /**
      * Vérifie que tous les noms des participants sont renseignés
@@ -66,7 +70,7 @@ public class VueChoixJoueurs extends Stage {
      * Retourne le nombre de participants à la partie que l'utilisateur a renseigné
      */
     protected int getNombreDeJoueurs() {
-        throw new RuntimeException("Methode à implémenter");
+        return this.nomsJoueurs.size();
     }
 
     /**

@@ -37,6 +37,7 @@ public class VuePlateau extends Pane {
             e.printStackTrace();
         }
         setMinSize(Screen.getPrimary().getBounds().getWidth()/3, Screen.getPrimary().getBounds().getHeight()/3) ;
+
     }
 
     EventHandler<MouseEvent> choixRoute = event -> {
