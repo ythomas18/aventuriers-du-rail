@@ -3,11 +3,9 @@ package fr.umontpellier.iut.rails.vues;
 import fr.umontpellier.iut.rails.ICarteTransport;
 import fr.umontpellier.iut.rails.IJeu;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.TextAlignment;
 
 import java.util.List;
 
@@ -31,21 +29,65 @@ public class VueJoueurCourant extends VBox {
 
     public void creerBindings(IJeu jeu) {
         jeu.joueurCourantProperty().addListener((observableValue, ancienJoueur, nouveauJoueur) ->
-        nomJoueur.setText(nouveauJoueur.getNom()));
-        //supprimerCarte();
+                this.supprimerCarte()
+        );
+
+        jeu.joueurCourantProperty().addListener((observableValue, ancienJoueur, nouveauJoueur) ->
+                nomJoueur.setText(nouveauJoueur.getNom())
+        );
+
+        jeu.joueurCourantProperty().addListener((observableValue, ancienJoueur, nouveauJoueur) ->
+                afficheCarte(nouveauJoueur.getCartesTransport())
+        );
+
+
+
+
+
 
 
     }
 
-    public void afficheCarte(List<ICarteTransport> cartes){
+    public void afficheCarte(List<? extends ICarteTransport> cartes){
         for (ICarteTransport carteTransport: cartes){
-            Label lbCarte= new Label(carteTransport.toString());
+            ImageView lbCarte = new ImageView("/images/cartesWagons/" + getImagePourCarte(carteTransport));
+            lbCarte.setPreserveRatio(true);
+            lbCarte.setFitHeight(65);
             CarteJoueurCourant.getChildren().addAll(lbCarte);
         }
     }
 
     public void supprimerCarte(){
         CarteJoueurCourant.getChildren().clear();
+    }
+
+
+
+    public String getImagePourCarte(ICarteTransport carteTransport){
+        String str = "carte-";
+        if(carteTransport.estDouble()){
+            str += "DOUBLE";
+        }
+
+        else if(carteTransport.estBateau()){
+            str += "BATEAU";
+        }
+
+        else if(carteTransport.estJoker()){
+            str += "JOKER";
+        }
+        else if(carteTransport.estWagon()){
+            str += "WAGON";
+        }
+
+        str = str + "-" + carteTransport.getStringCouleur();
+
+        if(carteTransport.getAncre()){
+            str += "-A";
+        }
+
+        return str+".png";
+
     }
 
 }
