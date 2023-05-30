@@ -54,13 +54,11 @@ public class VueDuJeu extends VBox {
         this.jeu = jeu;
         plateau = new VuePlateau();
         HBox hBox= new HBox();
+        plateau.setMaxSize(1000,1000);
         VueJoueurCourant vueJoueurCourant= new VueJoueurCourant("Nom joueur");
-        //plateau.getChildren().add(vueJoueurCourant);
         vueJoueurCourant.creerBindings(jeu);
         hBox.getChildren().addAll(plateau, vueJoueurCourant);
         this.getChildren().add(hBox);
-
-
 
         Label labelDestinationInitiale = new Label();
         Button btnPasser = new Button("Passer");
