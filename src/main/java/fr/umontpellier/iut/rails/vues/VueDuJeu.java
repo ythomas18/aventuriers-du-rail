@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.util.List;
@@ -53,24 +54,27 @@ public class VueDuJeu extends VBox {
     public VueDuJeu(IJeu jeu) {
         this.jeu = jeu;
         plateau = new VuePlateau();
-        HBox hBox= new HBox();
+        HBox plat= new HBox();
         plateau.setMaxSize(1000,1000);
+        plat.setMaxSize(1100, 1100);
         VueJoueurCourant vueJoueurCourant= new VueJoueurCourant("Nom joueur");
         vueJoueurCourant.creerBindings(jeu);
-        hBox.getChildren().addAll(plateau, vueJoueurCourant);
-        this.getChildren().add(hBox);
+        plat.getChildren().addAll(plateau, vueJoueurCourant);
+        this.getChildren().add(plat);
 
         Label labelDestinationInitiale = new Label();
         Button btnPasser = new Button("Passer");
+
 
         Label lblInstructions = new Label();
 
         lblInstructions.textProperty().bind(jeu.instructionProperty());
 
-
         this.listeDestination = new VBox();
 
-        this.getChildren().addAll(lblInstructions, btnPasser,listeDestination);
+        //this.getChildren().addAll(lblInstructions, btnPasser,listeDestination);
+
+
 
         EventHandler<MouseEvent> btnPasserHandlerClick = MouseEvent -> {
             jeu.passerAEteChoisi();
@@ -79,6 +83,11 @@ public class VueDuJeu extends VBox {
         btnPasser.setOnMouseClicked(btnPasserHandlerClick);
 
         jeu.destinationsInitialesProperty().addListener(toto);
+
+        //HBox bas= new HBox();
+        //bas.setAlignment(Pos.TOP_LEFT);
+        this.getChildren().addAll( btnPasser,lblInstructions,listeDestination);
+        //this.getChildren().add(bas);
 
 
 

@@ -3,7 +3,9 @@ package fr.umontpellier.iut.rails.vues;
 import fr.umontpellier.iut.rails.ICarteTransport;
 import fr.umontpellier.iut.rails.IJeu;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 
