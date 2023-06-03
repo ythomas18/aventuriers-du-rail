@@ -86,7 +86,7 @@ public class RailsIHM extends Application {
         alert.setContentText("On arrête de jouer ?");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            Platform.exit();
+            Platform.exit();/
         }
     }
 
