@@ -4,6 +4,9 @@ import fr.umontpellier.iut.rails.ICarteTransport;
 import fr.umontpellier.iut.rails.IJeu;
 import fr.umontpellier.iut.rails.IJoueur;
 import fr.umontpellier.iut.rails.mecanique.Joueur;
+import fr.umontpellier.iut.rails.mecanique.etatsJoueur.demandepions.SaisieNbPionsWagon;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -24,30 +27,87 @@ public class VueJoueurCourant extends VBox {
 
     private HBox CarteJoueurCourant;
 
-    private GridPane rangementCartes;
 
     private HBox carteJoueurCourantLigne1;
 
     private HBox carteJoueurCourantLigne2;
 
+    private HBox nbPions;
+
+    private SimpleIntegerProperty nbPionsWagon;
+
+    private SimpleIntegerProperty nbPionsBateau;
+
 
     public VueJoueurCourant(String nom_du_joueur) {
 
+
+
+        this.setAlignment(Pos.TOP_CENTER);
+
         this.nomJoueur = new Label();
+        this.nomJoueur.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+        this.nomJoueur.setAlignment(Pos.TOP_CENTER);
         this.CarteJoueurCourant= new HBox();
-        CarteJoueurCourant.setAlignment(Pos.CENTER_RIGHT);
+
         this.getChildren().add(nomJoueur);
+
         CarteJoueurCourant.setSpacing(5);
 
         carteJoueurCourantLigne1 = new HBox();
         carteJoueurCourantLigne2 = new HBox();
 
         VBox cartesContainer = new VBox(carteJoueurCourantLigne1, carteJoueurCourantLigne2);
-        cartesContainer.setAlignment(Pos.CENTER_RIGHT);
+
         cartesContainer.setSpacing(5);
-        cartesContainer.setMaxSize(100, 200);
+
 
         this.getChildren().add(cartesContainer);
+
+
+        this.setPrefHeight(500);
+        this.setPrefWidth(500);
+
+        this.setTranslateY(50);
+        this.setTranslateX(5);
+
+        this.setStyle("-fx-background-color: #e0e0e0; -fx-padding: 10px; -fx-border-color: black; -fx-border-width: 2px;");
+
+        nbPions = new HBox();
+
+        ImageView logoPionWagon = new ImageView("/images/bouton-pions-wagon.png");
+        logoPionWagon.setPreserveRatio(true);
+        logoPionWagon.setFitHeight(30);
+
+        nbPionsBateau = new SimpleIntegerProperty();
+        nbPionsWagon = new SimpleIntegerProperty();
+
+        Label nbPionsWagonLabel = new Label();
+        nbPionsWagonLabel.textProperty().bind(nbPionsWagon.asString());
+        nbPionsWagonLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+
+        Label nbPionsBateauLabel = new Label();
+        nbPionsBateauLabel.textProperty().bind(nbPionsBateau.asString());
+        nbPionsBateauLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+
+
+
+
+
+
+
+
+        ImageView logoPionBateau = new ImageView("/images/bouton-pions-bateau.png");
+        logoPionBateau.setPreserveRatio(true);
+        logoPionBateau.setFitHeight(30);
+
+        nbPions.getChildren().addAll(logoPionWagon,nbPionsWagonLabel,logoPionBateau,nbPionsBateauLabel);
+
+        nbPions.setSpacing(20);
+        nbPions.setStyle("-fx-background-color: #e0e0e0; -fx-padding: 10px; -fx-border-color: black; -fx-border-width: 2px;");
+        this.getChildren().add(nbPions);
+
+
 
 
 
@@ -67,6 +127,16 @@ public class VueJoueurCourant extends VBox {
                 afficheCarte(nouveauJoueur.getCartesTransport())
 
         );
+
+        jeu.joueurCourantProperty().addListener((observableValue, ancienJoueur, nouveauJoueur) ->
+                nbPionsWagon.bind(nouveauJoueur.nbPionsWagonsProperty())
+        );
+
+        jeu.joueurCourantProperty().addListener((observableValue, ancienJoueur, nouveauJoueur) ->
+                nbPionsBateau.bind(nouveauJoueur.nbPionsBateauxProperty())
+        );
+
+
 
 
 
