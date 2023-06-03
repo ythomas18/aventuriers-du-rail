@@ -4,6 +4,7 @@ import fr.umontpellier.iut.rails.ICarteTransport;
 import fr.umontpellier.iut.rails.IJeu;
 import fr.umontpellier.iut.rails.IJoueur;
 import fr.umontpellier.iut.rails.mecanique.Joueur;
+import fr.umontpellier.iut.rails.mecanique.data.CarteTransport;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -11,6 +12,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 import java.util.List;
 
@@ -36,18 +38,19 @@ public class VueJoueurCourant extends VBox {
         this.nomJoueur = new Label();
         this.CarteJoueurCourant= new HBox();
         CarteJoueurCourant.setAlignment(Pos.CENTER_RIGHT);
-        this.getChildren().add(nomJoueur);
         CarteJoueurCourant.setSpacing(5);
 
         carteJoueurCourantLigne1 = new HBox();
         carteJoueurCourantLigne2 = new HBox();
 
-        VBox cartesContainer = new VBox(carteJoueurCourantLigne1, carteJoueurCourantLigne2);
-        cartesContainer.setAlignment(Pos.CENTER_RIGHT);
-        cartesContainer.setSpacing(5);
-        cartesContainer.setMaxSize(100, 200);
+        VBox contenue = new VBox(carteJoueurCourantLigne1, carteJoueurCourantLigne2);
+        contenue.setAlignment(Pos.CENTER_RIGHT);
+        contenue.setSpacing(5);
+        contenue.setMaxSize(100, 200);
 
-        this.getChildren().add(cartesContainer);
+        this.getChildren().addAll(nomJoueur, contenue);
+        CarteJoueurCourant.getChildren().add(this);
+
 
 
 
@@ -61,19 +64,20 @@ public class VueJoueurCourant extends VBox {
 
         jeu.joueurCourantProperty().addListener((observableValue, ancienJoueur, nouveauJoueur) ->
                 nomJoueur.setText(nouveauJoueur.getNom())
+
+
         );
 
         jeu.joueurCourantProperty().addListener((observableValue, ancienJoueur, nouveauJoueur) ->
                 afficheCarte(nouveauJoueur.getCartesTransport())
 
         );
-
-
-
-
-
-
-
+        jeu.joueurCourantProperty().addListener((observableValue, ancienJoueur, nouveauJoueur) -> {
+            Color couleurJoueur = convertirCouleur(nouveauJoueur.getCouleur());
+            String couleurHex = convertirEnHexadecimal(couleurJoueur);
+            carteJoueurCourantLigne1.setStyle("-fx-background-color: " + couleurHex + ";");
+            carteJoueurCourantLigne2.setStyle("-fx-background-color: " + couleurHex + ";");
+        });
 
     }
 
@@ -86,6 +90,7 @@ public class VueJoueurCourant extends VBox {
             ImageView lbCarte = new ImageView("/images/cartesWagons/" + getImagePourCarte(carteTransport));
             lbCarte.setPreserveRatio(true);
             lbCarte.setFitHeight(65);
+
 
             if (i < 5) {
                 carteJoueurCourantLigne1.getChildren().add(lbCarte);
@@ -128,6 +133,32 @@ public class VueJoueurCourant extends VBox {
         return str+".png";
 
     }
+
+    private Color convertirCouleur(IJoueur.CouleurJoueur couleur) {
+        switch (couleur) {
+            case JAUNE:
+                return Color.YELLOW;
+            case ROUGE:
+                return Color.RED;
+            case BLEU:
+                return Color.BLUE;
+            case VERT:
+                return Color.GREEN;
+            case ROSE:
+                return Color.PINK;
+            default:
+                return Color.WHITE;
+        }
+    }
+
+    private String convertirEnHexadecimal(Color couleur) {
+        int rouge = (int) (couleur.getRed() * 255);
+        int vert = (int) (couleur.getGreen() * 255);
+        int bleu = (int) (couleur.getBlue() * 255);
+        return String.format("#%02X%02X%02X", rouge, vert, bleu);
+    }
+
+
 
 
 }
