@@ -2,6 +2,8 @@ package fr.umontpellier.iut.rails.vues;
 
 import fr.umontpellier.iut.rails.IDestination;
 import fr.umontpellier.iut.rails.IJeu;
+import javafx.beans.binding.Binding;
+import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.value.WeakChangeListener;
@@ -55,10 +57,14 @@ public class VueDuJeu extends VBox {
         this.jeu = jeu;
         plateau = new VuePlateau();
         HBox plat= new HBox();
+        //VBox joueur= new VBox();
+
         plateau.setMaxSize(1000,1000);
-        plat.setMaxSize(1100, 1100);
+        plat.setMaxSize(3000, 3000);
         VueJoueurCourant vueJoueurCourant= new VueJoueurCourant("Nom joueur");
         vueJoueurCourant.creerBindings(jeu);
+        //joueur.getChildren().add(vueJoueurCourant);
+
         plat.getChildren().addAll(plateau, vueJoueurCourant);
         this.getChildren().add(plat);
 
@@ -73,8 +79,6 @@ public class VueDuJeu extends VBox {
         this.listeDestination = new VBox();
 
         //this.getChildren().addAll(lblInstructions, btnPasser,listeDestination);
-
-
 
         EventHandler<MouseEvent> btnPasserHandlerClick = MouseEvent -> {
             jeu.passerAEteChoisi();
@@ -92,6 +96,7 @@ public class VueDuJeu extends VBox {
         vBox.setMinSize(300,220);
         vBox.setMaxSize(300,220);
         this.getChildren().addAll(vBox);
+
 
 
 

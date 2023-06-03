@@ -30,6 +30,7 @@ public class RailsIHM extends Application {
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
         debuterJeu();
+
     }
 
     public void debuterJeu() {

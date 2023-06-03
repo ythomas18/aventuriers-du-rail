@@ -78,7 +78,18 @@ public class VueChoixJoueurs extends Stage {
      * @param playerNumber : le numéro du participant
      */
     protected String getJoueurParNumero(int playerNumber) {
-        throw new RuntimeException("Methode à implémenter");
+        switch ((playerNumber)) {
+            case 1:
+                return "Guybrush";
+            case 2:
+                return "Largo";
+            case 3:
+                return "LeChuck";
+            case 4:
+                return  "Elaine";
+            default:
+                return null;
+        }
     }
 
 }
