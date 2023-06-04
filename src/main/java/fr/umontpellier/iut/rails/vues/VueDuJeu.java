@@ -20,6 +20,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -36,7 +37,7 @@ public class VueDuJeu extends VBox {
     private final IJeu jeu;
     private VuePlateau plateau;
 
-    private VBox listeDestination;
+    private HBox listeDestination;
 
 
 
@@ -44,11 +45,20 @@ public class VueDuJeu extends VBox {
         while (change.next()) {
             if (change.wasAdded()) {
                 for (IDestination iDestination : change.getAddedSubList()) {
-                    listeDestination.getChildren().add(new Label(iDestination.getVilles().toString()));
+                    try {
+                        listeDestination.getChildren().add(new VueDestination(iDestination));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
-            } else if (change.wasRemoved()) {
+            }
+            else if (change.wasRemoved()) {
                 for (IDestination iDestination : change.getRemoved()) {
-                    listeDestination.getChildren().remove(removeDestination(iDestination));
+                    try {
+                        listeDestination.getChildren().remove(removeDestination(iDestination));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         }
@@ -77,7 +87,8 @@ public class VueDuJeu extends VBox {
 
         lblInstructions.textProperty().bind(jeu.instructionProperty());
 
-        this.listeDestination = new VBox();
+        this.listeDestination = new HBox();
+        listeDestination.setSpacing(40);
 
         //this.getChildren().addAll(lblInstructions, btnPasser,listeDestination);
 
@@ -95,7 +106,7 @@ public class VueDuJeu extends VBox {
         vBox.getChildren().addAll(bas, lblInstructions, listeDestination);
         vBox.setPadding(new javafx.geometry.Insets(10, 10, 10, 10));
         vBox.setMinSize(300,220);
-        vBox.setMaxSize(300,220);
+        vBox.setMaxSize(600,420);
         this.getChildren().addAll(vBox);
 
 
@@ -106,11 +117,11 @@ public class VueDuJeu extends VBox {
 
     }
 
-    public Label removeDestination(IDestination destination){
+    public VueDestination removeDestination(IDestination destination) throws IOException {
         for(Node n : listeDestination.getChildren()){
-            Label labelDestination = (Label) n;
-            if(labelDestination.getText().equals(destination.getVilles().toString())){
-                return labelDestination;
+            VueDestination destination1 = (VueDestination) n;
+            if(destination1.equals(new VueDestination(destination))){
+                return (VueDestination) n;
             }
         }
         return null;

@@ -4,6 +4,7 @@ import fr.umontpellier.iut.rails.IDestination;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Destination implements IDestination {
     /**
@@ -144,5 +145,18 @@ public class Destination implements IDestination {
         destinations.add(new Destination(List.of("Tehran", "Lahore", "Mumbai", "Bangkok"), 9, 13, 19)); // D64
         destinations.add(new Destination(List.of("Murmansk", "Tiksi", "Novosibirsk", "Yakutsk", "Petropavlovsk"), 20, 30, 36)); // D65
         return destinations;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Destination that = (Destination) o;
+        return valeurSimple == that.valeurSimple && Objects.equals(villes, that.villes) && Objects.equals(nom, that.nom);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(villes, valeurSimple, nom);
     }
 }

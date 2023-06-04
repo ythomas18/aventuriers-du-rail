@@ -4,12 +4,21 @@ import fr.umontpellier.iut.rails.IDestination;
 import fr.umontpellier.iut.rails.mecanique.Jeu;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Screen;
+import javafx.scene.effect.DropShadow;
+
 
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * Cette classe représente la vue d'une carte Destination.
@@ -19,36 +28,43 @@ import java.io.IOException;
 public class VueDestination extends Pane  {
 
     private final IDestination destination;
-
-    @FXML
-    private Label ville1;
-
-    @FXML
-    private Label ville2;
-
-    @FXML
-    private Label idCarte;
+    private Button button;
+    private VBox vbox;
 
 
+    public VueDestination(IDestination destination) throws IOException {
 
-
-
-    public VueDestination(IDestination destination) {
         this.destination = destination;
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/carteDestination.fxml"));
-            loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        vbox = new VBox();
+        Label ville1 = new Label(destination.getVilles().get(0));
+        ville1.setFont(Font.font("Cabin", FontWeight.MEDIUM, 15));
+        Label ville2 = new Label(destination.getVilles().get(1));
+        ville2.setFont(Font.font("Cabin", FontWeight.MEDIUM, 15));
+        Label numCarte = new Label(String.valueOf(destination.getValeur()));
+        vbox.getChildren().addAll(ville1, ville2, numCarte);
 
-        ville1 = new Label();
-        ville2 = new Label();
-        idCarte = new Label();
 
-        ville1.setText(this.destination.getVilles().get(0));
-        ville2.setText(this.destination.getVilles().get(1));
-        idCarte.setText(String.valueOf(this.destination.getValeur()));
+
+        vbox.setPrefHeight(70);
+        vbox.setPrefWidth(100);
+
+        DropShadow ds = new DropShadow();
+        ds.setRadius(10);
+        ds.setColor(Color.BLACK);
+        ds.setOffsetX(3);
+        ds.setOffsetY(3);
+        vbox.setEffect(ds);
+        vbox.setStyle("-fx-background-color: #F6E7D4; -fx-background-radius: 5px;");
+
+
+        vbox.setOnMouseEntered(e -> {
+            vbox.setStyle("-fx-background-color: #FFE6C7");
+        });
+        vbox.setOnMouseExited(e -> {
+            vbox.setStyle("-fx-background-color: #F6E7D4");
+        });
+
+        this.getChildren().add(vbox);
 
 
 
@@ -56,6 +72,18 @@ public class VueDestination extends Pane  {
     }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        VueDestination that = (VueDestination) o;
+        return Objects.equals(destination, that.destination);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(destination);
+    }
 
     public IDestination getDestination() {
         return destination;
