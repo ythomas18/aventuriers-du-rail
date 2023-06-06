@@ -133,7 +133,7 @@ public class VueJoueurCourant extends VBox {
         );
 
         jeu.joueurCourantProperty().addListener((observableValue, ancienJoueur, nouveauJoueur) -> {
-            String couleur = Couleur(nouveauJoueur);
+            String couleur = CouleurJoueur(nouveauJoueur);
             this.setStyle("-fx-background-color: " + couleur + ";");
         });
     }
@@ -190,7 +190,7 @@ public class VueJoueurCourant extends VBox {
 
     }
 
-    public String Couleur(IJoueur joueur){
+    public String CouleurJoueur(IJoueur joueur){
         IJoueur.CouleurJoueur couleurJoueur= joueur.getCouleur();
         switch (couleurJoueur){
             case JAUNE:
