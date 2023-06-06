@@ -100,6 +100,13 @@ public class VueDuJeu extends VBox {
 
         jeu.destinationsInitialesProperty().addListener(toto);
 
+        jeu.joueurCourantProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                IJoueur.CouleurJoueur couleurJoueur = newValue.getCouleur();
+                this.setStyle("-fx-background-color: " + couleurJoueur + ";");
+            }
+        });
+
         HBox bas= new HBox();
         VBox vBox= new VBox();
         bas.getChildren().add(btnPasser);
@@ -108,6 +115,7 @@ public class VueDuJeu extends VBox {
         vBox.setMinSize(300,220);
         vBox.setMaxSize(600,420);
         this.getChildren().addAll(vBox);
+        //this.setStyle("-fx-background-color: #ff0000");
 
 
 

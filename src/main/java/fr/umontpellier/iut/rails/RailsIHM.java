@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
 public class RailsIHM extends Application {
 
     private VueChoixJoueurs vueChoixJoueurs;

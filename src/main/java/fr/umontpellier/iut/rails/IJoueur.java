@@ -25,4 +25,7 @@ public interface IJoueur {
     enum CouleurJoueur {
         JAUNE, ROUGE, BLEU, VERT, ROSE
     }
+
+
+
 }

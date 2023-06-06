@@ -3,6 +3,7 @@ package fr.umontpellier.iut.rails.vues;
 import fr.umontpellier.iut.rails.ICarteTransport;
 import fr.umontpellier.iut.rails.IJeu;
 import fr.umontpellier.iut.rails.IJoueur;
+import fr.umontpellier.iut.rails.IJoueur.CouleurJoueur;
 import fr.umontpellier.iut.rails.mecanique.Joueur;
 import fr.umontpellier.iut.rails.mecanique.etatsJoueur.demandepions.SaisieNbPionsWagon;
 import javafx.beans.property.IntegerProperty;
@@ -14,7 +15,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.paint.Color;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 /**
@@ -38,10 +42,10 @@ public class VueJoueurCourant extends VBox {
 
     private SimpleIntegerProperty nbPionsBateau;
 
+    private VBox cartesContainer;
+
 
     public VueJoueurCourant(String nom_du_joueur) {
-
-
 
         this.setAlignment(Pos.TOP_CENTER);
 
@@ -61,16 +65,13 @@ public class VueJoueurCourant extends VBox {
 
         cartesContainer.setSpacing(5);
 
-
         this.getChildren().add(cartesContainer);
-
 
         this.setPrefHeight(500);
         this.setPrefWidth(500);
 
-        this.setTranslateY(50);
+        //this.setTranslateY(50);
         this.setTranslateX(5);
-
         this.setStyle("-fx-background-color: #e0e0e0; -fx-padding: 10px; -fx-border-color: black; -fx-border-width: 2px;");
 
         nbPions = new HBox();
@@ -90,13 +91,6 @@ public class VueJoueurCourant extends VBox {
         nbPionsBateauLabel.textProperty().bind(nbPionsBateau.asString());
         nbPionsBateauLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
 
-
-
-
-
-
-
-
         ImageView logoPionBateau = new ImageView("/images/bouton-pions-bateau.png");
         logoPionBateau.setPreserveRatio(true);
         logoPionBateau.setFitHeight(30);
@@ -106,6 +100,8 @@ public class VueJoueurCourant extends VBox {
         nbPions.setSpacing(20);
         nbPions.setStyle("-fx-background-color: #e0e0e0; -fx-padding: 10px; -fx-border-color: black; -fx-border-width: 2px;");
         this.getChildren().add(nbPions);
+
+
 
 
 
@@ -136,15 +132,10 @@ public class VueJoueurCourant extends VBox {
                 nbPionsBateau.bind(nouveauJoueur.nbPionsBateauxProperty())
         );
 
-
-
-
-
-
-
-
-
-
+        jeu.joueurCourantProperty().addListener((observableValue, ancienJoueur, nouveauJoueur) -> {
+            String couleur = Couleur(nouveauJoueur);
+            this.setStyle("-fx-background-color: " + couleur + ";");
+        });
     }
 
     public void afficheCarte(List<? extends ICarteTransport> cartes){
@@ -197,6 +188,24 @@ public class VueJoueurCourant extends VBox {
 
         return str+".png";
 
+    }
+
+    public String Couleur(IJoueur joueur){
+        IJoueur.CouleurJoueur couleurJoueur= joueur.getCouleur();
+        switch (couleurJoueur){
+            case JAUNE:
+                return "#FFD700";
+            case ROUGE:
+                return "#f51832";
+            case BLEU:
+                return "#87CEFA";
+            case VERT:
+                return "#6B8E23";
+            case ROSE:
+                return "#ffb9c7";
+            default:
+                return "#000000";
+        }
     }
 
 
