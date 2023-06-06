@@ -42,7 +42,6 @@ public class VueJoueurCourant extends VBox {
 
     private SimpleIntegerProperty nbPionsBateau;
 
-    private VBox cartesContainer;
 
 
     public VueJoueurCourant(String nom_du_joueur) {
@@ -54,8 +53,6 @@ public class VueJoueurCourant extends VBox {
         this.nomJoueur.setAlignment(Pos.TOP_CENTER);
         this.CarteJoueurCourant= new HBox();
 
-        this.getChildren().add(nomJoueur);
-
         CarteJoueurCourant.setSpacing(5);
 
         carteJoueurCourantLigne1 = new HBox();
@@ -65,14 +62,16 @@ public class VueJoueurCourant extends VBox {
 
         cartesContainer.setSpacing(5);
 
-        this.getChildren().add(cartesContainer);
 
-        this.setPrefHeight(500);
+
+
+
+        this.setSpacing(5);
         this.setPrefWidth(500);
 
         //this.setTranslateY(50);
         this.setTranslateX(5);
-        this.setStyle("-fx-background-color: #e0e0e0; -fx-padding: 10px; -fx-border-color: black; -fx-border-width: 2px;");
+
 
         nbPions = new HBox();
 
@@ -99,7 +98,10 @@ public class VueJoueurCourant extends VBox {
 
         nbPions.setSpacing(20);
         nbPions.setStyle("-fx-background-color: #e0e0e0; -fx-padding: 10px; -fx-border-color: black; -fx-border-width: 2px;");
-        this.getChildren().add(nbPions);
+
+
+
+        this.getChildren().addAll(nomJoueur,cartesContainer,nbPions);
 
 
 
@@ -133,8 +135,8 @@ public class VueJoueurCourant extends VBox {
         );
 
         jeu.joueurCourantProperty().addListener((observableValue, ancienJoueur, nouveauJoueur) -> {
-            String couleur = CouleurJoueur(nouveauJoueur);
-            this.setStyle("-fx-background-color: " + couleur + ";");
+
+            this.setStyle(CouleurJoueur(nouveauJoueur));
         });
     }
 
@@ -194,17 +196,17 @@ public class VueJoueurCourant extends VBox {
         IJoueur.CouleurJoueur couleurJoueur= joueur.getCouleur();
         switch (couleurJoueur){
             case JAUNE:
-                return "#FFD700";
+                return "-fx-background-color: #FFD700;";
             case ROUGE:
-                return "#f51832";
+                return "-fx-background-color: #f51832;";
             case BLEU:
-                return "#87CEFA";
+                return "-fx-background-color: #87CEFA;";
             case VERT:
-                return "#6B8E23";
+                return "-fx-background-color: #6B8E23;";
             case ROSE:
-                return "#ffb9c7";
+                return "-fx-background-color: #ffb9c7;";
             default:
-                return "#000000";
+                return "-fx-background-color: #000000;";
         }
     }
 

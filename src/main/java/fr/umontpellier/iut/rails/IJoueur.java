@@ -12,6 +12,8 @@ public interface IJoueur {
     ObservableList<? extends CarteTransport> cartesTransportPoseesProperty();
     IntegerProperty nbPionsWagonsProperty();
     IntegerProperty nbPionsBateauxProperty();
+    IntegerProperty nbPionsWagonsEnReserveProperty();
+    IntegerProperty nbPionsBateauxEnReserveProperty();
 
     List<? extends ICarteTransport> getCartesTransport();
     List<? extends IDestination> getDestinations();
@@ -25,6 +27,7 @@ public interface IJoueur {
     enum CouleurJoueur {
         JAUNE, ROUGE, BLEU, VERT, ROSE
     }
+
 
 
 

@@ -66,11 +66,11 @@ public class Joueur implements IJoueur {
     /**
      * Nombre de pions wagons que le joueur a dans sa réserve (dans la boîte)
      */
-    private int nbPionsWagonEnReserve;
+    private IntegerProperty nbPionsWagonEnReserve;
     /**
      * Nombre de pions bateaux que le joueur a dans sa réserve (dans la boîte)
      */
-    private int nbPionsBateauEnReserve;
+    private IntegerProperty nbPionsBateauEnReserve;
 
     public Joueur(String nom, Jeu jeu, CouleurJoueur couleur) {
         this.nom =  new SimpleObjectProperty<>(nom);
@@ -78,10 +78,10 @@ public class Joueur implements IJoueur {
         this.couleur = couleur;
         this.ports = new ArrayList<>();
         this.routes = new ArrayList<>();
-        this.nbPionsWagon = new SimpleIntegerProperty();
-        this.nbPionsWagonEnReserve = 25;
-        this.nbPionsBateau = new SimpleIntegerProperty(60);
-        this.nbPionsBateauEnReserve = -10;
+        this.nbPionsWagon = new SimpleIntegerProperty(40);
+        this.nbPionsWagonEnReserve = new SimpleIntegerProperty(25);
+        this.nbPionsBateau = new SimpleIntegerProperty(20);
+        this.nbPionsBateauEnReserve = new SimpleIntegerProperty(-10);
         this.cartesTransport = FXCollections.observableArrayList();
         this.cartesTransportPosees = FXCollections.observableArrayList();
         this.destinations = FXCollections.observableArrayList();
@@ -98,6 +98,12 @@ public class Joueur implements IJoueur {
     }
     public IntegerProperty nbPionsBateauxProperty() {
         return nbPionsBateau;
+    }
+    public IntegerProperty nbPionsWagonsEnReserveProperty() {
+        return nbPionsWagonEnReserve;
+    }
+    public IntegerProperty nbPionsBateauxEnReserveProperty() {
+        return nbPionsBateauEnReserve;
     }
 
     public ObjectProperty<String> nomProperty() {
@@ -321,33 +327,33 @@ public class Joueur implements IJoueur {
     }
 
     public int nbMaxPionsWagonPossibles() {
-        return Math.min(nbPionsWagonEnReserve, nbPionsBateau.get());
+        return Math.min(nbPionsWagonEnReserve.get(), nbPionsBateau.get());
     }
 
     public int nbMaxPionsBateauPossibles() {
-        return Math.min(nbPionsBateauEnReserve, nbPionsWagon.get());
+        return Math.min(nbPionsBateauEnReserve.get(), nbPionsWagon.get());
     }
 
     public void ajouterPionsWagon(int n) {
         nbPionsBateau.set(nbPionsBateau.get() - n);
-        nbPionsBateauEnReserve += n;
+        nbPionsBateauEnReserve.set(nbPionsBateauEnReserve.get() + n);
         nbPionsWagon.set(nbPionsWagon.get() + n);
-        nbPionsWagonEnReserve -= n;
+        nbPionsWagonEnReserve.set(nbPionsWagonEnReserve.get() - n);
         score.setValue(score.getValue() - n);
     }
 
     public void ajouterPionsWagonInitial(int n) {
         nbPionsWagon.setValue(n);
-        nbPionsWagonEnReserve = 25 - n;
+        nbPionsWagonEnReserve.set(25 - n);
         nbPionsBateau.setValue(60 - n);
-        nbPionsBateauEnReserve = n - 10;
+        nbPionsBateauEnReserve.set(n - 10);
     }
 
     public void ajouterPionsBateau(int n) {
         nbPionsBateau.set(nbPionsBateau.get() + n);
-        nbPionsBateauEnReserve -= n;
+        nbPionsBateauEnReserve.set(nbPionsBateauEnReserve.get() - n);
         nbPionsWagon.set(nbPionsWagon.get() - n);
-        nbPionsWagonEnReserve += n;
+        nbPionsWagonEnReserve.set(nbPionsWagonEnReserve.get() + n);
         score.setValue(score.getValue() - n);
     }
 

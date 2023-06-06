@@ -14,11 +14,13 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.util.List;
@@ -74,9 +76,22 @@ public class VueDuJeu extends VBox {
         plat.setMaxSize(3000, 3000);
         VueJoueurCourant vueJoueurCourant= new VueJoueurCourant("Nom joueur");
         vueJoueurCourant.creerBindings(jeu);
+        VueAutresJoueurs vueAutresJoueurs = new VueAutresJoueurs(jeu);
 
 
-        plat.getChildren().addAll(plateau, vueJoueurCourant);
+        VBox joueurCourantXAutresJoueurs = new VBox();
+        joueurCourantXAutresJoueurs.getChildren().addAll(vueJoueurCourant,vueAutresJoueurs);
+
+        DropShadow ds = new DropShadow();
+        ds.setRadius(10);
+        ds.setColor(Color.BLACK);
+        ds.setOffsetX(3);
+        ds.setOffsetY(3);
+
+        this.plateau.setEffect(ds);
+
+
+        plat.getChildren().addAll(plateau, joueurCourantXAutresJoueurs);
         this.getChildren().add(plat);
 
         Label labelDestinationInitiale = new Label();
