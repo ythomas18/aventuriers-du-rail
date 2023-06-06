@@ -61,7 +61,7 @@ public class VueJoueurCourant extends VBox {
         VBox cartesContainer = new VBox(carteJoueurCourantLigne1, carteJoueurCourantLigne2);
 
         cartesContainer.setSpacing(5);
-
+        //this.setMinSize(500,500);
 
 
 
