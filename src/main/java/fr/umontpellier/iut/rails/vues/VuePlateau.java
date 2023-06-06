@@ -52,6 +52,7 @@ public class VuePlateau extends Pane {
     };
 
     public void creerBindings() {
+ ajouterVilles();
         ajouterPorts();
         ajouterRoutes();
         bindRedimensionEtCentragePlateau();
@@ -178,4 +179,16 @@ public class VuePlateau extends Pane {
         });
     }
 
+
+
+private void ajouterVilles() {
+    for (String nomVille : DonneesGraphiques.villes.keySet()) {
+        DonneesGraphiques.DonneesCerclesPorts positionVilleSurPlateau = DonneesGraphiques.villes.get(nomVille);
+        Circle cercleVille = new Circle(positionVilleSurPlateau.centreX(), positionVilleSurPlateau.centreY(), DonneesGraphiques.rayonInitial);
+        cercleVille.setId(nomVille);
+        getChildren().add(cercleVille);
+        bindCerclePortAuPlateau(positionVilleSurPlateau, cercleVille);
+        cercleVille.setOnMouseClicked(choixPort);
+    }
+}
 }
