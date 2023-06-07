@@ -15,6 +15,12 @@ public interface IJoueur {
     IntegerProperty nbPionsWagonsEnReserveProperty();
     IntegerProperty nbPionsBateauxEnReserveProperty();
 
+
+    IntegerProperty nbPortsProperty();
+    IntegerProperty scoreProperty();
+
+
+
     List<? extends ICarteTransport> getCartesTransport();
     List<? extends IDestination> getDestinations();
     int getNbPionsWagon();

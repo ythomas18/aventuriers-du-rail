@@ -72,6 +72,10 @@ public class Joueur implements IJoueur {
      */
     private IntegerProperty nbPionsBateauEnReserve;
 
+
+
+
+
     public Joueur(String nom, Jeu jeu, CouleurJoueur couleur) {
         this.nom =  new SimpleObjectProperty<>(nom);
         this.jeu = jeu;
@@ -85,7 +89,9 @@ public class Joueur implements IJoueur {
         this.cartesTransport = FXCollections.observableArrayList();
         this.cartesTransportPosees = FXCollections.observableArrayList();
         this.destinations = FXCollections.observableArrayList();
-        this.score = new SimpleIntegerProperty();
+        this.score = new SimpleIntegerProperty(0);
+
+
     }
 
     /**
@@ -104,6 +110,10 @@ public class Joueur implements IJoueur {
     }
     public IntegerProperty nbPionsBateauxEnReserveProperty() {
         return nbPionsBateauEnReserve;
+    }
+
+    public IntegerProperty nbPortsProperty() {
+        return new SimpleIntegerProperty(ports.size());
     }
 
     public ObjectProperty<String> nomProperty() {

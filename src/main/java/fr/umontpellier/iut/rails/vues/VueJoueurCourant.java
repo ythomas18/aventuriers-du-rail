@@ -95,8 +95,12 @@ public class VueJoueurCourant extends VBox {
         nbPionsBateauLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
 
         Label nbPortLabel= new Label();
-        nbPortLabel.setText(nbPort.getValue().toString());
+        nbPortLabel.textProperty().bind(nbPort.asString());
         nbPortLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+
+        Label scoreJoueur = new Label();
+        scoreJoueur.textProperty().bind(score.asString());
+        scoreJoueur.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
 
         ImageView logoPionBateau = new ImageView("/images/bouton-pions-bateau.png");
         logoPionBateau.setPreserveRatio(true);
@@ -106,11 +110,11 @@ public class VueJoueurCourant extends VBox {
         logoPort.setPreserveRatio(true);
         logoPort.setFitHeight(30);
 
-        Label scoreJoueur = new Label();
+
 
         HBox scoreHBox = new HBox();
 
-        scoreJoueur.setText(nbPort.getValue().toString());
+
         Label scoredeuxpoints = new Label("Score : ");
 
         scoreHBox.getChildren().addAll(scoredeuxpoints,scoreJoueur);
@@ -160,11 +164,11 @@ public class VueJoueurCourant extends VBox {
         );
 
         jeu.joueurCourantProperty().addListener((observableValue, ancienJoueur, nouveauJoueur)->
-                score.set(nouveauJoueur.getScore())
+                score.bind(nouveauJoueur.scoreProperty())
         );
 
         jeu.joueurCourantProperty().addListener((observableValue, ancienJoueur, nouveauJoueur)->
-                nbPort.set(nouveauJoueur.getNbPorts())
+                nbPort.bind(nouveauJoueur.nbPortsProperty())
         );
 
 
