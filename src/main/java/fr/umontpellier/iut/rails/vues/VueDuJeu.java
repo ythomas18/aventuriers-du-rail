@@ -15,6 +15,8 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -37,6 +39,8 @@ public class VueDuJeu extends VBox {
     private VuePlateau plateau;
 
     private HBox listeDestination;
+
+    private HBox piocheOption;
 
 
 
@@ -69,6 +73,46 @@ public class VueDuJeu extends VBox {
         HBox plat= new HBox();
         this.setStyle("-fx-background-color: #C8AD7F");
         double borderWidth= 2.0;
+        this.piocheOption= new HBox();
+        VBox pioche= new VBox();
+        this.listeDestination = new HBox();
+        HBox bas= new HBox();
+        VBox vBox= new VBox();
+        HBox deuxPartie= new HBox();
+
+        ImageView logopioche = new ImageView("images/cartesWagons/dos-BATEAU.png");
+        logopioche.setPreserveRatio(true);
+        logopioche.setFitHeight(200);
+
+        ImageView logopioche2 = new ImageView("images/cartesWagons/dos-WAGON.png");
+        logopioche2.setPreserveRatio(true);
+        logopioche2.setFitHeight(200);
+
+        ImageView logopioche3 = new ImageView("images/cartesWagons/destinations.png");
+        logopioche3.setPreserveRatio(true);
+        logopioche3.setFitHeight(200);
+
+        ImageView logoPionBateau = new ImageView("images/bouton-pions-bateau.png");
+        logoPionBateau.setPreserveRatio(true);
+        logoPionBateau.setFitHeight(200);
+
+        ImageView logoPionWagon = new ImageView("images/bouton-pions-wagon.png");
+        logoPionWagon.setPreserveRatio(true);
+        logoPionWagon.setFitHeight(200);
+
+        pioche.getChildren().addAll(logoPionWagon, logoPionBateau);
+        piocheOption.getChildren().addAll(logopioche, logopioche2, pioche);
+        deuxPartie.getChildren().addAll(vBox,piocheOption);
+
+
+
+
+
+
+
+
+
+
 
 
         plateau.setMaxSize(1000,1000);
@@ -104,7 +148,7 @@ public class VueDuJeu extends VBox {
 
         lblInstructions.textProperty().bind(jeu.instructionProperty());
 
-        this.listeDestination = new HBox();
+
         listeDestination.setSpacing(40);
 
         //this.getChildren().addAll(lblInstructions, btnPasser,listeDestination);
@@ -118,14 +162,13 @@ public class VueDuJeu extends VBox {
         jeu.destinationsInitialesProperty().addListener(toto);
 
 
-        HBox bas= new HBox();
-        VBox vBox= new VBox();
+
         bas.getChildren().add(btnPasser);
         vBox.getChildren().addAll(bas, lblInstructions, listeDestination);
         vBox.setPadding(new javafx.geometry.Insets(10, 10, 10, 10));
         vBox.setMinSize(300,220);
         vBox.setMaxSize(600,420);
-        this.getChildren().addAll(vBox);
+        this.getChildren().addAll(deuxPartie);
 
 
 
@@ -133,7 +176,8 @@ public class VueDuJeu extends VBox {
 
 
 
-
+        //this.setBackground(new Background(new BackgroundImage(new Image("images/fonds/papier_froise.png"), null, null , null, null)));
+        // exemple coordonnées dans le dossier resources : "images/cartesWagons/avatar-BLEU.png"
     }
 
     public VueDestination removeDestination(IDestination destination) throws IOException {
