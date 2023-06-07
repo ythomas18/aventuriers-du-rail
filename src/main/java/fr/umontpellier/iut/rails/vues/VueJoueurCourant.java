@@ -42,6 +42,8 @@ public class VueJoueurCourant extends VBox {
 
     private SimpleIntegerProperty nbPionsBateau;
 
+    private SimpleIntegerProperty nbPort;
+
 
 
     public VueJoueurCourant(String nom_du_joueur) {
@@ -81,6 +83,7 @@ public class VueJoueurCourant extends VBox {
 
         nbPionsBateau = new SimpleIntegerProperty();
         nbPionsWagon = new SimpleIntegerProperty();
+        nbPort= new SimpleIntegerProperty();
 
         Label nbPionsWagonLabel = new Label();
         nbPionsWagonLabel.textProperty().bind(nbPionsWagon.asString());
@@ -90,11 +93,19 @@ public class VueJoueurCourant extends VBox {
         nbPionsBateauLabel.textProperty().bind(nbPionsBateau.asString());
         nbPionsBateauLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
 
+        Label nbPortLabel= new Label();
+        nbPortLabel.textProperty().bind(nbPort.asString());
+        nbPortLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+
         ImageView logoPionBateau = new ImageView("/images/bouton-pions-bateau.png");
         logoPionBateau.setPreserveRatio(true);
         logoPionBateau.setFitHeight(30);
 
-        nbPions.getChildren().addAll(logoPionWagon,nbPionsWagonLabel,logoPionBateau,nbPionsBateauLabel);
+        ImageView logoPort= new ImageView("/images/port.png");
+        logoPort.setPreserveRatio(true);
+        logoPort.setFitHeight(30);
+
+        nbPions.getChildren().addAll(logoPionWagon,nbPionsWagonLabel,logoPionBateau,nbPionsBateauLabel, logoPort, nbPortLabel);
 
         nbPions.setSpacing(20);
         nbPions.setStyle("-fx-background-color: #e0e0e0; -fx-padding: 10px; -fx-border-color: black; -fx-border-width: 2px;");
