@@ -79,6 +79,7 @@ public class VueDuJeu extends VBox {
         HBox bas= new HBox();
         VBox vBox= new VBox();
         HBox deuxPartie= new HBox();
+        HBox logo= new HBox();
 
         ImageView logopioche = new ImageView("images/cartesWagons/dos-BATEAU.png");
         logopioche.setPreserveRatio(true);
@@ -90,28 +91,21 @@ public class VueDuJeu extends VBox {
 
         ImageView logopioche3 = new ImageView("images/cartesWagons/destinations.png");
         logopioche3.setPreserveRatio(true);
-        logopioche3.setFitHeight(200);
+        logopioche3.setFitHeight(130);
 
         ImageView logoPionBateau = new ImageView("images/bouton-pions-bateau.png");
         logoPionBateau.setPreserveRatio(true);
-        logoPionBateau.setFitHeight(200);
+        logoPionBateau.setFitHeight(70);
 
         ImageView logoPionWagon = new ImageView("images/bouton-pions-wagon.png");
         logoPionWagon.setPreserveRatio(true);
-        logoPionWagon.setFitHeight(200);
+        logoPionWagon.setFitHeight(70);
 
-        pioche.getChildren().addAll(logoPionWagon, logoPionBateau);
+        logo.getChildren().addAll(logoPionWagon, logoPionBateau);
+        pioche.getChildren().addAll(logo, logopioche3);
         piocheOption.getChildren().addAll(logopioche, logopioche2, pioche);
         deuxPartie.getChildren().addAll(vBox,piocheOption);
-
-
-
-
-
-
-
-
-
+        deuxPartie.setSpacing(450);
 
 
 
@@ -168,7 +162,7 @@ public class VueDuJeu extends VBox {
         vBox.setPadding(new javafx.geometry.Insets(10, 10, 10, 10));
         vBox.setMinSize(300,220);
         vBox.setMaxSize(600,420);
-        this.getChildren().addAll(deuxPartie);
+        this.getChildren().add(deuxPartie);
 
 
 
