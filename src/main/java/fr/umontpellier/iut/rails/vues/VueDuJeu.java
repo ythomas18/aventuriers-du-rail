@@ -68,19 +68,21 @@ public class VueDuJeu extends VBox {
         plateau = new VuePlateau();
         HBox plat= new HBox();
         this.setStyle("-fx-background-color: #C8AD7F");
+        double borderWidth= 2.0;
 
 
         plateau.setMaxSize(1000,1000);
         plat.setMaxSize(3000, 3000);
         VueJoueurCourant vueJoueurCourant= new VueJoueurCourant("Nom joueur");
         vueJoueurCourant.setBorder(new Border(new BorderStroke(Color.BLACK,
-                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(borderWidth))));
         vueJoueurCourant.creerBindings(jeu);
         VueAutresJoueurs vueAutresJoueurs = new VueAutresJoueurs(jeu);
 
 
         VBox joueurCourantXAutresJoueurs = new VBox();
         joueurCourantXAutresJoueurs.getChildren().addAll(vueJoueurCourant,vueAutresJoueurs);
+
 
         DropShadow ds = new DropShadow();
         ds.setRadius(10);

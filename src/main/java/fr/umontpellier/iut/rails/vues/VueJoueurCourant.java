@@ -11,10 +11,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.paint.Color;
 
@@ -71,7 +68,8 @@ public class VueJoueurCourant extends VBox {
 
 
         this.setSpacing(5);
-        this.setPrefWidth(500);
+        this.setPrefWidth(100);
+        this.setPrefHeight(420);
 
         //this.setTranslateY(50);
         this.setTranslateX(5);
@@ -131,15 +129,7 @@ public class VueJoueurCourant extends VBox {
         nbPions.setSpacing(20);
         nbPions.setStyle("-fx-background-color: #e0e0e0; -fx-padding: 10px; -fx-border-color: black; -fx-border-width: 2px;");
 
-
-
         this.getChildren().addAll(nomJoueur,cartesContainer,nbPions);
-        this.setStyle("-fx-background-color: #e0e0e0; -fx-padding: 10px; -fx-border-color: black; -fx-border-width: 2px;");
-
-
-
-
-
 
 
 

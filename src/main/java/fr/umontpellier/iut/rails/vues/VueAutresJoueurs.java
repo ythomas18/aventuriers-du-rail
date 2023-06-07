@@ -42,12 +42,12 @@ public class VueAutresJoueurs extends HBox {
                 jeu.joueurCourantProperty().addListener((observable, oldValue, newValue) -> {
                         for(VueJoueur v : joueurs){
                                 if(v.getJoueur().equals(oldValue)){
-                                        v.getImageJoueur().setFitHeight(100);
+                                        v.getImageJoueur().setFitHeight(80);
                                         v.nomJoueur.setStyle("-fx-font-size: 0px; -fx-font-weight: normal ;");
 
                                 }
                                 if(v.getJoueur().equals(newValue)){
-                                        v.getImageJoueur().setFitHeight(110);
+                                        v.getImageJoueur().setFitHeight(90);
                                         v.nomJoueur.setStyle("-fx-font-size: 15px; -fx-font-weight: bold;");
                                 }
 
@@ -79,6 +79,7 @@ public class VueAutresJoueurs extends HBox {
                         imageJoueur.preserveRatioProperty().set(true);
                         this.getChildren().addAll(imageJoueur,nomJoueur);
                         this.setStyle(couleur);
+                        this.getImageJoueur().setFitHeight(100);
                 }
 
                 String CouleurJoueur(IJoueur joueur){

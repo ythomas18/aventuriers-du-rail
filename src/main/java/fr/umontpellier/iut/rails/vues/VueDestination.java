@@ -4,6 +4,7 @@ import fr.umontpellier.iut.rails.IDestination;
 import fr.umontpellier.iut.rails.mecanique.Jeu;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -41,12 +42,14 @@ public class VueDestination extends Pane  {
         Label ville2 = new Label(destination.getVilles().get(1));
         ville2.setFont(Font.font("Cabin", FontWeight.MEDIUM, 15));
         Label numCarte = new Label(String.valueOf(destination.getValeur()));
+        vbox.setPadding(new Insets(10));
         vbox.getChildren().addAll(ville1, ville2, numCarte);
 
 
 
         vbox.setPrefHeight(70);
-        vbox.setPrefWidth(100);
+        vbox.setPrefWidth(120);
+
 
         DropShadow ds = new DropShadow();
         ds.setRadius(10);
