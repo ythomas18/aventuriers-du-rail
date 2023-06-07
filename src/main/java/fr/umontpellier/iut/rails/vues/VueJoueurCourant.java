@@ -97,7 +97,7 @@ public class VueJoueurCourant extends VBox {
         nbPionsBateauLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
 
         Label nbPortLabel= new Label();
-        nbPortLabel.textProperty().bind(nbPort.asString());
+        nbPortLabel.setText(nbPort.getValue().toString());
         nbPortLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
 
         ImageView logoPionBateau = new ImageView("/images/bouton-pions-bateau.png");
@@ -112,7 +112,7 @@ public class VueJoueurCourant extends VBox {
 
         HBox scoreHBox = new HBox();
 
-        scoreJoueur.textProperty().bind(score.asString());
+        scoreJoueur.setText(nbPort.getValue().toString());
         Label scoredeuxpoints = new Label("Score : ");
 
         scoreHBox.getChildren().addAll(scoredeuxpoints,scoreJoueur);
@@ -122,7 +122,11 @@ public class VueJoueurCourant extends VBox {
 
 
 
+
+
         nbPions.getChildren().addAll(logoPionWagon,nbPionsWagonLabel,logoPionBateau,nbPionsBateauLabel, logoPort, nbPortLabel,scoreHBox);
+
+
 
         nbPions.setSpacing(20);
         nbPions.setStyle("-fx-background-color: #e0e0e0; -fx-padding: 10px; -fx-border-color: black; -fx-border-width: 2px;");

@@ -16,10 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
@@ -76,6 +73,8 @@ public class VueDuJeu extends VBox {
         plateau.setMaxSize(1000,1000);
         plat.setMaxSize(3000, 3000);
         VueJoueurCourant vueJoueurCourant= new VueJoueurCourant("Nom joueur");
+        vueJoueurCourant.setBorder(new Border(new BorderStroke(Color.BLACK,
+                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         vueJoueurCourant.creerBindings(jeu);
         VueAutresJoueurs vueAutresJoueurs = new VueAutresJoueurs(jeu);
 
