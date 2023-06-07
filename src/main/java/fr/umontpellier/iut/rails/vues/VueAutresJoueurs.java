@@ -3,6 +3,7 @@ package fr.umontpellier.iut.rails.vues;
 import fr.umontpellier.iut.rails.IJeu;
 import fr.umontpellier.iut.rails.IJoueur;
 import fr.umontpellier.iut.rails.mecanique.Joueur;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -42,15 +43,21 @@ public class VueAutresJoueurs extends HBox {
                         for(VueJoueur v : joueurs){
                                 if(v.getJoueur().equals(oldValue)){
                                         v.getImageJoueur().setFitHeight(100);
+                                        v.nomJoueur.setStyle("-fx-font-size: 0px; -fx-font-weight: normal ;");
+
                                 }
                                 if(v.getJoueur().equals(newValue)){
                                         v.getImageJoueur().setFitHeight(110);
+                                        v.nomJoueur.setStyle("-fx-font-size: 15px; -fx-font-weight: bold;");
                                 }
 
                         }
                 });
                 setAlignment(Pos.CENTER);
                 setSpacing(5);
+                for(VueJoueur v : joueurs){
+                        v.setPadding(new Insets(5));
+                }
 
 
         }

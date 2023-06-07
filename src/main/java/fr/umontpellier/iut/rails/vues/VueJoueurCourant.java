@@ -44,6 +44,8 @@ public class VueJoueurCourant extends VBox {
 
     private SimpleIntegerProperty nbPort;
 
+    private SimpleIntegerProperty score;
+
 
 
     public VueJoueurCourant(String nom_du_joueur) {
@@ -84,6 +86,7 @@ public class VueJoueurCourant extends VBox {
         nbPionsBateau = new SimpleIntegerProperty();
         nbPionsWagon = new SimpleIntegerProperty();
         nbPort= new SimpleIntegerProperty();
+        score = new SimpleIntegerProperty();
 
         Label nbPionsWagonLabel = new Label();
         nbPionsWagonLabel.textProperty().bind(nbPionsWagon.asString());
@@ -105,7 +108,21 @@ public class VueJoueurCourant extends VBox {
         logoPort.setPreserveRatio(true);
         logoPort.setFitHeight(30);
 
-        nbPions.getChildren().addAll(logoPionWagon,nbPionsWagonLabel,logoPionBateau,nbPionsBateauLabel, logoPort, nbPortLabel);
+        Label scoreJoueur = new Label();
+
+        HBox scoreHBox = new HBox();
+
+        scoreJoueur.textProperty().bind(score.asString());
+        Label scoredeuxpoints = new Label("Score : ");
+
+        scoreHBox.getChildren().addAll(scoredeuxpoints,scoreJoueur);
+        scoreHBox.setSpacing(5);
+        scoreHBox.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+
+
+
+
+        nbPions.getChildren().addAll(logoPionWagon,nbPionsWagonLabel,logoPionBateau,nbPionsBateauLabel, logoPort, nbPortLabel,scoreHBox);
 
         nbPions.setSpacing(20);
         nbPions.setStyle("-fx-background-color: #e0e0e0; -fx-padding: 10px; -fx-border-color: black; -fx-border-width: 2px;");
@@ -113,6 +130,9 @@ public class VueJoueurCourant extends VBox {
 
 
         this.getChildren().addAll(nomJoueur,cartesContainer,nbPions);
+        this.setStyle("-fx-background-color: #e0e0e0; -fx-padding: 10px; -fx-border-color: black; -fx-border-width: 2px;");
+
+
 
 
 
@@ -145,9 +165,19 @@ public class VueJoueurCourant extends VBox {
                 nbPionsBateau.bind(nouveauJoueur.nbPionsBateauxProperty())
         );
 
-        jeu.joueurCourantProperty().addListener((observableValue, ancienJoueur, nouveauJoueur) -> {
+        jeu.joueurCourantProperty().addListener((observableValue, ancienJoueur, nouveauJoueur)->
+                score.set(nouveauJoueur.getScore())
+        );
 
+        jeu.joueurCourantProperty().addListener((observableValue, ancienJoueur, nouveauJoueur)->
+                nbPort.set(nouveauJoueur.getNbPorts())
+        );
+
+
+
+        jeu.joueurCourantProperty().addListener((observableValue, ancienJoueur, nouveauJoueur) -> {
             this.setStyle(CouleurJoueur(nouveauJoueur));
+
         });
     }
 
