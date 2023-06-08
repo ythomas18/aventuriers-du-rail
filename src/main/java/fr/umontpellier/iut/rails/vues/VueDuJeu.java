@@ -53,7 +53,12 @@ public class VueDuJeu extends VBox {
             if (change.wasAdded()) {
                 for (IDestination iDestination : change.getAddedSubList()) {
                     try {
-                        listeDestination.getChildren().add(new VueDestination(iDestination));
+                        VueDestination vd = new VueDestination(iDestination);
+                        listeDestination.getChildren().add(vd);
+                        vd.getChildren().get(0).setOnMouseClicked(event -> {
+                            this.getJeu().uneDestinationAEteChoisie(vd.getDestination());
+                        });
+
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -69,6 +74,18 @@ public class VueDuJeu extends VBox {
             }
         }
     };
+
+    private IDestination destinationChoisi(VueDestination vueDestination) {
+        for (Node node : listeDestination.getChildren()) {
+            if (node instanceof VueDestination) {
+                VueDestination vueDestination1 = (VueDestination) node;
+                if (vueDestination1.equals(vueDestination)) {
+                    return vueDestination1.getDestination();
+                }
+            }
+        }
+        return null;
+    }
 
     private final ChangeListener<String> textfield = new ChangeListener<String>() {
         @Override
@@ -194,7 +211,15 @@ public class VueDuJeu extends VBox {
             }
         };
 
+
+
         jeu.instructionProperty().addListener(textfield);
+
+
+
+
+
+
 
         saisieNombreDePions.setOnKeyPressed(action);
 
