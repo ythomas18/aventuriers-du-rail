@@ -14,9 +14,12 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -42,6 +45,7 @@ public class VueDuJeu extends VBox {
 
     private HBox piocheOption;
 
+    TextField saisieNombreDePions;
 
 
     private final ListChangeListener<IDestination> toto = change -> {
@@ -54,8 +58,7 @@ public class VueDuJeu extends VBox {
                         throw new RuntimeException(e);
                     }
                 }
-            }
-            else if (change.wasRemoved()) {
+            } else if (change.wasRemoved()) {
                 for (IDestination iDestination : change.getRemoved()) {
                     try {
                         listeDestination.getChildren().remove(removeDestination(iDestination));
@@ -67,19 +70,36 @@ public class VueDuJeu extends VBox {
         }
     };
 
+    private final ChangeListener<String> textfield = new ChangeListener<String>() {
+        @Override
+        public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+            if (newValue.equals("Saisissez un nombre de pions wagon entre 10 et 25")) {
+                saisieNombreDePions.visibleProperty().setValue(true);
+            }
+            else {
+                saisieNombreDePions.visibleProperty().setValue(false);
+            }
+        }
+    };
+
+
+
+
+
+
     public VueDuJeu(IJeu jeu) {
         this.jeu = jeu;
         plateau = new VuePlateau();
-        HBox plat= new HBox();
+        HBox plat = new HBox();
         this.setStyle("-fx-background-color: #C8AD7F");
-        double borderWidth= 2.0;
-        this.piocheOption= new HBox();
-        VBox pioche= new VBox();
+        double borderWidth = 2.0;
+        this.piocheOption = new HBox();
+        VBox pioche = new VBox();
         this.listeDestination = new HBox();
-        HBox bas= new HBox();
-        VBox vBox= new VBox();
-        HBox deuxPartie= new HBox();
-        HBox logo= new HBox();
+        HBox bas = new HBox();
+        VBox vBox = new VBox();
+        HBox deuxPartie = new HBox();
+        HBox logo = new HBox();
 
         ImageView logopioche = new ImageView("images/cartesWagons/dos-BATEAU.png");
         logopioche.setPreserveRatio(true);
@@ -104,14 +124,13 @@ public class VueDuJeu extends VBox {
         logo.getChildren().addAll(logoPionWagon, logoPionBateau);
         pioche.getChildren().addAll(logo, logopioche3);
         piocheOption.getChildren().addAll(logopioche, logopioche2, pioche);
-        deuxPartie.getChildren().addAll(vBox,piocheOption);
+        deuxPartie.getChildren().addAll(vBox, piocheOption);
         deuxPartie.setSpacing(450);
 
 
-
-        plateau.setMaxSize(1000,1000);
+        plateau.setMaxSize(1000, 1000);
         plat.setMaxSize(3000, 3000);
-        VueJoueurCourant vueJoueurCourant= new VueJoueurCourant("Nom joueur");
+        VueJoueurCourant vueJoueurCourant = new VueJoueurCourant("Nom joueur");
         vueJoueurCourant.setBorder(new Border(new BorderStroke(Color.BLACK,
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(borderWidth))));
         vueJoueurCourant.creerBindings(jeu);
@@ -119,7 +138,7 @@ public class VueDuJeu extends VBox {
 
 
         VBox joueurCourantXAutresJoueurs = new VBox();
-        joueurCourantXAutresJoueurs.getChildren().addAll(vueJoueurCourant,vueAutresJoueurs);
+        joueurCourantXAutresJoueurs.getChildren().addAll(vueJoueurCourant, vueAutresJoueurs);
 
 
         DropShadow ds = new DropShadow();
@@ -155,23 +174,39 @@ public class VueDuJeu extends VBox {
 
         jeu.destinationsInitialesProperty().addListener(toto);
 
+        saisieNombreDePions = new TextField();
+
 
 
         bas.getChildren().add(btnPasser);
-        vBox.getChildren().addAll(bas, lblInstructions, listeDestination);
+        vBox.getChildren().addAll(bas, lblInstructions, saisieNombreDePions, listeDestination);
         vBox.setPadding(new javafx.geometry.Insets(10, 10, 10, 10));
-        vBox.setMinSize(300,220);
-        vBox.setMaxSize(600,420);
+
+        vBox.setPrefSize(600, 420);
+
         this.getChildren().add(deuxPartie);
 
 
+        EventHandler<KeyEvent> action = KeyEvent -> {
+            if (KeyEvent.getCode() == KeyCode.ENTER) {
+                jeu.leNombreDePionsSouhaiteAEteRenseigne(saisieNombreDePions.getText());
+
+            }
+        };
+
+        jeu.instructionProperty().addListener(textfield);
+
+        saisieNombreDePions.setOnKeyPressed(action);
 
 
 
 
 
-        //this.setBackground(new Background(new BackgroundImage(new Image("images/fonds/papier_froise.png"), null, null , null, null)));
-        // exemple coordonnées dans le dossier resources : "images/cartesWagons/avatar-BLEU.png"
+
+
+
+    //this.setBackground(new Background(new BackgroundImage(new Image("images/fonds/papier_froise.png"), null, null , null, null)));
+    // exemple coordonnées dans le dossier resources : "images/cartesWagons/avatar-BLEU.png"
     }
 
     public VueDestination removeDestination(IDestination destination) throws IOException {
@@ -185,6 +220,10 @@ public class VueDuJeu extends VBox {
 
     }
 
+    public int choixNombreDePions() {
+        return Integer.parseInt(saisieNombreDePions.getText());
+    }
+
     public void creerBindings() {
         plateau.prefWidthProperty().bind(getScene().widthProperty());
         plateau.prefHeightProperty().bind(getScene().heightProperty());
@@ -192,13 +231,18 @@ public class VueDuJeu extends VBox {
 
 
 
+
+
     }
 
     public IJeu getJeu() {
         return jeu;
+
     }
 
     EventHandler<? super MouseEvent> actionPasserParDefaut = (mouseEvent -> getJeu().passerAEteChoisi());
+
+
 
 
 }
