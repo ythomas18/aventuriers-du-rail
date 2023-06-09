@@ -5,6 +5,9 @@ import fr.umontpellier.iut.rails.IJeu;
 import fr.umontpellier.iut.rails.IJoueur;
 import fr.umontpellier.iut.rails.IJoueur.CouleurJoueur;
 import fr.umontpellier.iut.rails.mecanique.Joueur;
+import fr.umontpellier.iut.rails.mecanique.data.CarteTransport;
+import fr.umontpellier.iut.rails.mecanique.data.Couleur;
+import fr.umontpellier.iut.rails.mecanique.data.TypeCarteTransport;
 import fr.umontpellier.iut.rails.mecanique.etatsJoueur.demandepions.SaisieNbPionsWagon;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -12,11 +15,14 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.paint.Color;
 
 import java.text.NumberFormat;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Cette classe présente les éléments appartenant au joueur courant.
@@ -24,6 +30,8 @@ import java.util.List;
  * On y définit les bindings sur le joueur courant, ainsi que le listener à exécuter lorsque ce joueur change
  */
 public class VueJoueurCourant extends VBox {
+
+    private IJeu jeu;
     private Label nomJoueur;
 
     private HBox CarteJoueurCourant;
@@ -45,7 +53,9 @@ public class VueJoueurCourant extends VBox {
 
 
 
-    public VueJoueurCourant(String nom_du_joueur) {
+    public VueJoueurCourant(IJeu jeu) {
+
+        this.jeu = jeu;
 
         this.setAlignment(Pos.TOP_CENTER);
 
@@ -126,6 +136,7 @@ public class VueJoueurCourant extends VBox {
 
 
 
+
         nbPions.getChildren().addAll(logoPionWagon,nbPionsWagonLabel,logoPionBateau,nbPionsBateauLabel, logoPort, nbPortLabel,scoreHBox);
 
 
@@ -141,6 +152,8 @@ public class VueJoueurCourant extends VBox {
 
     }
 
+
+
     public void creerBindings(IJeu jeu) {
         jeu.joueurCourantProperty().addListener((observableValue, ancienJoueur, nouveauJoueur) ->
                 this.supprimerCarte()
@@ -150,10 +163,7 @@ public class VueJoueurCourant extends VBox {
                 nomJoueur.setText(nouveauJoueur.getNom())
         );
 
-        jeu.joueurCourantProperty().addListener((observableValue, ancienJoueur, nouveauJoueur) ->
-                afficheCarte(nouveauJoueur.getCartesTransport())
 
-        );
 
         jeu.joueurCourantProperty().addListener((observableValue, ancienJoueur, nouveauJoueur) ->
                 nbPionsWagon.bind(nouveauJoueur.nbPionsWagonsProperty())
@@ -175,24 +185,27 @@ public class VueJoueurCourant extends VBox {
 
         jeu.joueurCourantProperty().addListener((observableValue, ancienJoueur, nouveauJoueur) -> {
             this.setStyle(CouleurJoueur(nouveauJoueur));
+            afficheCarte();
 
         });
     }
 
-    public void afficheCarte(List<? extends ICarteTransport> cartes){
+    public void afficheCarte(){
+
+        List<? extends ICarteTransport> cartes = this.jeu.joueurCourantProperty().get().getCartesTransport();
+
+
         carteJoueurCourantLigne1.getChildren().clear();
         carteJoueurCourantLigne2.getChildren().clear();
 
         for (int i = 0; i < cartes.size(); i++) {
-            ICarteTransport carteTransport = cartes.get(i);
-            ImageView lbCarte = new ImageView("/images/cartesWagons/" + getImagePourCarte(carteTransport));
-            lbCarte.setPreserveRatio(true);
-            lbCarte.setFitHeight(65);
+            ICarteTransport icarte = cartes.get(i);
+            VueCarteTransport carteTransport = new VueCarteTransport(icarte,1);
 
             if (i < 5) {
-                carteJoueurCourantLigne1.getChildren().add(lbCarte);
+                carteJoueurCourantLigne1.getChildren().add(carteTransport);
             } else {
-                carteJoueurCourantLigne2.getChildren().add(lbCarte);
+                carteJoueurCourantLigne2.getChildren().add(carteTransport);
             }
         }
 
@@ -204,32 +217,7 @@ public class VueJoueurCourant extends VBox {
 
 
 
-    public String getImagePourCarte(ICarteTransport carteTransport){
-        String str = "carte-";
-        if(carteTransport.estDouble()){
-            str += "DOUBLE";
-        }
 
-        else if(carteTransport.estBateau()){
-            str += "BATEAU";
-        }
-
-        else if(carteTransport.estJoker()){
-            str += "JOKER";
-        }
-        else if(carteTransport.estWagon()){
-            str += "WAGON";
-        }
-
-        str = str + "-" + carteTransport.getStringCouleur();
-
-        if(carteTransport.getAncre()){
-            str += "-A";
-        }
-
-        return str+".png";
-
-    }
 
     public String CouleurJoueur(IJoueur joueur){
         IJoueur.CouleurJoueur couleurJoueur= joueur.getCouleur();

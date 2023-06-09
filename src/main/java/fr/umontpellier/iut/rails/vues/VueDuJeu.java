@@ -120,36 +120,54 @@ public class VueDuJeu extends VBox {
         HBox deuxPartie = new HBox();
         HBox logo = new HBox();
 
-        ImageView logopioche = new ImageView("images/cartesWagons/dos-BATEAU.png");
-        logopioche.setPreserveRatio(true);
-        logopioche.setFitHeight(200);
+        ImageView logopiochebateau = new ImageView("images/cartesWagons/dos-BATEAU.png");
+        logopiochebateau.setPreserveRatio(true);
+        logopiochebateau.setFitHeight(200);
 
-        ImageView logopioche2 = new ImageView("images/cartesWagons/dos-WAGON.png");
-        logopioche2.setPreserveRatio(true);
-        logopioche2.setFitHeight(200);
+        logopiochebateau.setOnMouseClicked(event -> {
+            this.getJeu().uneCarteBateauAEtePiochee();
+        });
 
-        ImageView logopioche3 = new ImageView("images/cartesWagons/destinations.png");
-        logopioche3.setPreserveRatio(true);
-        logopioche3.setFitHeight(130);
+
+        ImageView logopiochewagon = new ImageView("images/cartesWagons/dos-WAGON.png");
+        logopiochewagon.setPreserveRatio(true);
+        logopiochewagon.setFitHeight(200);
+
+        logopiochewagon.setOnMouseClicked(event -> {
+            this.getJeu().uneCarteWagonAEtePiochee();
+        });
+
+        ImageView logopiochedestination = new ImageView("images/cartesWagons/destinations.png");
+        logopiochedestination.setPreserveRatio(true);
+        logopiochedestination.setFitHeight(130);
+
 
         ImageView logoPionBateau = new ImageView("images/bouton-pions-bateau.png");
         logoPionBateau.setPreserveRatio(true);
         logoPionBateau.setFitHeight(70);
 
+        logoPionBateau.setOnMouseClicked(event -> {
+            this.getJeu().nouveauxPionsBateauxDemandes();
+        });
+
         ImageView logoPionWagon = new ImageView("images/bouton-pions-wagon.png");
         logoPionWagon.setPreserveRatio(true);
         logoPionWagon.setFitHeight(70);
 
+        logoPionWagon.setOnMouseClicked(event -> {
+            this.getJeu().nouveauxPionsWagonsDemandes();
+        });
+
         logo.getChildren().addAll(logoPionWagon, logoPionBateau);
-        pioche.getChildren().addAll(logo, logopioche3);
-        piocheOption.getChildren().addAll(logopioche, logopioche2, pioche);
+        pioche.getChildren().addAll(logo, logopiochedestination);
+        piocheOption.getChildren().addAll(logopiochebateau, logopiochewagon, pioche);
         deuxPartie.getChildren().addAll(vBox, piocheOption);
         deuxPartie.setSpacing(450);
 
 
         plateau.setMaxSize(1000, 1000);
         plat.setMaxSize(3000, 3000);
-        VueJoueurCourant vueJoueurCourant = new VueJoueurCourant("Nom joueur");
+        VueJoueurCourant vueJoueurCourant = new VueJoueurCourant(this.jeu);
         vueJoueurCourant.setBorder(new Border(new BorderStroke(Color.BLACK,
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(borderWidth))));
         vueJoueurCourant.creerBindings(jeu);
@@ -221,6 +239,12 @@ public class VueDuJeu extends VBox {
 
             }
         };
+
+
+
+
+
+
 
 
 
