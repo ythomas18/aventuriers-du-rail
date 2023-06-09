@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -25,6 +26,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
+import java.security.KeyStore;
 import java.util.List;
 
 /**
@@ -172,6 +174,13 @@ public class VueDuJeu extends VBox {
 
         Label labelDestinationInitiale = new Label();
         Button btnPasser = new Button("Passer");
+        btnPasser.setPrefSize(500,20);
+        DropShadow effet= new DropShadow();
+        effet.setColor(Color.BLACK);
+        effet.setOffsetX(2);
+        effet.setOffsetY(2);
+        btnPasser.setEffect(effet);
+        btnPasser.setStyle("-fx-background-color: #3440AFFF;" + "-fx-font-weight: Bold;");
 
 
         Label lblInstructions = new Label();
@@ -188,6 +197,8 @@ public class VueDuJeu extends VBox {
         };
 
         btnPasser.setOnMouseClicked(btnPasserHandlerClick);
+
+
 
         jeu.destinationsInitialesProperty().addListener(toto);
 
