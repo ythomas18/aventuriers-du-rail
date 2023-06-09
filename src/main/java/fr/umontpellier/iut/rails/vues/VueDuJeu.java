@@ -1,23 +1,17 @@
 package fr.umontpellier.iut.rails.vues;
 
+import fr.umontpellier.iut.rails.ICarteTransport;
 import fr.umontpellier.iut.rails.IDestination;
 import fr.umontpellier.iut.rails.IJeu;
-import fr.umontpellier.iut.rails.IJoueur;
-import javafx.beans.binding.Binding;
-import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.beans.value.WeakChangeListener;
 import javafx.collections.ListChangeListener;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Effect;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -26,8 +20,6 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
-import java.security.KeyStore;
-import java.util.List;
 
 /**
  * Cette classe correspond à la fenêtre principale de l'application.
@@ -45,12 +37,14 @@ public class VueDuJeu extends VBox {
 
     private HBox listeDestination;
 
+    private HBox listeCarteTransport;
+
     private HBox piocheOption;
 
     TextField saisieNombreDePions;
 
 
-    private final ListChangeListener<IDestination> toto = change -> {
+    private final ListChangeListener<IDestination> listenerCarteDestination = change -> {
         while (change.next()) {
             if (change.wasAdded()) {
                 for (IDestination iDestination : change.getAddedSubList()) {
@@ -76,6 +70,32 @@ public class VueDuJeu extends VBox {
             }
         }
     };
+
+    private final ListChangeListener<ICarteTransport> listenerCarteTransport = change -> {
+        while (change.next()) {
+            if (change.wasAdded()) {
+                for (ICarteTransport iCarteTransport : change.getAddedSubList()) {
+                    VueCarteTransport vd = new VueCarteTransport(iCarteTransport,1);
+                    listeDestination.getChildren().add(vd);
+                    vd.getChildren().get(0).setOnMouseClicked(event -> {
+                        this.getJeu().uneCarteTransportAEteChoisie(vd.getCarteTransport());
+                    });
+
+                }
+            }
+            else if (change.wasRemoved()) {
+                for (ICarteTransport iCarteTransport : change.getRemoved()) {
+                    VueCarteTransport node = new VueCarteTransport(iCarteTransport,1);
+                    if (node.getCarteTransport().equals(change.getRemoved().get(0))) {
+                        this.listeCarteTransport.getChildren().remove(node);
+                        break;
+                    }
+                }
+            }
+        }
+    };
+
+
 
     private IDestination destinationChoisi(VueDestination vueDestination) {
         for (Node node : listeDestination.getChildren()) {
@@ -115,6 +135,7 @@ public class VueDuJeu extends VBox {
         this.piocheOption = new HBox();
         VBox pioche = new VBox();
         this.listeDestination = new HBox();
+        this.listeCarteTransport = new HBox();
         HBox bas = new HBox();
         VBox vBox = new VBox();
         HBox deuxPartie = new HBox();
@@ -218,14 +239,16 @@ public class VueDuJeu extends VBox {
 
 
 
-        jeu.destinationsInitialesProperty().addListener(toto);
+        jeu.destinationsInitialesProperty().addListener(listenerCarteDestination);
+
+        jeu.cartesTransportVisiblesProperty().addListener(listenerCarteTransport);
 
         saisieNombreDePions = new TextField();
 
 
 
         bas.getChildren().add(btnPasser);
-        vBox.getChildren().addAll(bas, lblInstructions, saisieNombreDePions, listeDestination);
+        vBox.getChildren().addAll(bas, lblInstructions, saisieNombreDePions, listeDestination, listeCarteTransport);
         vBox.setPadding(new javafx.geometry.Insets(10, 10, 10, 10));
 
         vBox.setPrefSize(600, 420);
@@ -274,6 +297,17 @@ public class VueDuJeu extends VBox {
             VueDestination destination1 = (VueDestination) n;
             if(destination1.equals(new VueDestination(destination))){
                 return (VueDestination) n;
+            }
+        }
+        return null;
+
+    }
+
+    public VueCarteTransport removeCarteTransport(ICarteTransport carteTransport) {
+        for(Node n : listeCarteTransport.getChildren()){
+            VueCarteTransport carteTransport1 = (VueCarteTransport) n;
+            if(carteTransport1.equals(new VueCarteTransport(carteTransport,1))){
+                return (VueCarteTransport) n;
             }
         }
         return null;
