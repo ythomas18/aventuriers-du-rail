@@ -46,6 +46,8 @@ public class VueCarteTransport extends Pane {
         cercle.setFill(Color.web("#4b4b4b"));
         Label value = new Label();
         value.setText(nbCartes+"");
+        //int nbCartesIdentiques = getNombreCarteTransportIdentiques(nbCartes);
+        //value.setText(Integer.toString(nbCartesIdentiques));
         value.textFillProperty().set(Paint.valueOf("white"));
         StackPane stack = new StackPane();
         stack.getChildren().addAll(cercle, value);
@@ -59,22 +61,17 @@ public class VueCarteTransport extends Pane {
         carte.getChildren().add(stack);
 
         this.getChildren().add(carte);
-
-
-
-
-
-
     }
 
-    public int getNombreCarteTransportIdentiques(int nbCartes){
+    /*public int getNombreCarteTransportIdentiques(int nbCartes){
+        //int nbCartes= 0;
         for (ICarteTransport carte: listeCartesTransport){
             if (carte.equals(this.carteTransport)){
                 nbCartes++;
             }
         }
         return nbCartes;
-    }
+    }*/
 
 
 
