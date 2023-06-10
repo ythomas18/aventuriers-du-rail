@@ -200,7 +200,7 @@ public class VueDuJeu extends VBox {
         effet.setOffsetX(2);
         effet.setOffsetY(2);
         btnPasser.setEffect(effet);
-        btnPasser.setStyle("-fx-background-color: #3440AFFF;" + "-fx-font-weight: Bold;");
+        btnPasser.setStyle("-fx-background-color: #4682B4;" + "-fx-font-weight: Bold;");
 
 
         Label lblInstructions = new Label();
