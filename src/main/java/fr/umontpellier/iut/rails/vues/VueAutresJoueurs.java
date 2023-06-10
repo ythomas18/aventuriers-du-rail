@@ -160,9 +160,11 @@ public class VueAutresJoueurs extends HBox {
 
 
 
+
                         this.getChildren().add(infosJoueur);
                         this.setStyle(couleur);
                         this.getImageJoueur().setFitHeight(100);
+                        this.setSpacing(10);
 
                         fadeTransition = new FadeTransition(Duration.millis(100), pionsJoueur);
                         fadeTransition.setFromValue(0.0);  // Transparence initiale

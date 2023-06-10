@@ -219,5 +219,15 @@ public final class CarteTransport implements Comparable<CarteTransport>, ICarteT
             }
             return Couleur.GRIS;
         }
+
+        public int getNombreCartesIdentiques(List<CarteTransport> cartes) {
+            int nombre = 0;
+            for (CarteTransport carte : cartes) {
+                if (this.equals(carte)) {
+                    nombre++;
+                }
+            }
+            return nombre;
+        }
     }
 }

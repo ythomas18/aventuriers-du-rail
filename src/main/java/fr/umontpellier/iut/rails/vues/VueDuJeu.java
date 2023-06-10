@@ -178,6 +178,7 @@ public class VueDuJeu extends VBox {
 
         VBox joueurCourantXAutresJoueurs = new VBox();
         joueurCourantXAutresJoueurs.getChildren().addAll(vueJoueurCourant, vueAutresJoueurs);
+        joueurCourantXAutresJoueurs.setPadding(new javafx.geometry.Insets(10, 10, 10, 10));
 
 
         DropShadow ds = new DropShadow();
@@ -235,7 +236,7 @@ public class VueDuJeu extends VBox {
         vBox.getChildren().addAll(bas, lblInstructions, saisieNombreDePions, listeDestination, listeCarteTransport);
         vBox.setPadding(new javafx.geometry.Insets(10, 10, 10, 10));
 
-        vBox.setPrefSize(600, 420);
+        vBox.setPrefSize(600, 300);
 
         this.getChildren().add(deuxPartie);
 

@@ -72,13 +72,14 @@ public class VueJoueurCourant extends VBox {
         VBox cartesContainer = new VBox(carteJoueurCourantLigne1, carteJoueurCourantLigne2);
 
         cartesContainer.setSpacing(5);
+        cartesContainer.setPadding(new javafx.geometry.Insets(10, 10, 10, 10));
         //this.setMinSize(500,500);
 
 
 
 
         this.setSpacing(5);
-        this.setPrefWidth(100);
+        this.setPrefWidth(550);
         this.setPrefHeight(420);
 
         //this.setTranslateY(50);

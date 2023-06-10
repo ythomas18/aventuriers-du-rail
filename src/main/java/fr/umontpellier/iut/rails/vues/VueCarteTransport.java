@@ -12,6 +12,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
+import java.util.List;
+
 /**
  * Cette classe représente la vue d'une carte Transport.
  *
@@ -20,6 +22,8 @@ import javafx.scene.shape.Circle;
 public class VueCarteTransport extends Pane {
 
     private final ICarteTransport carteTransport;
+
+    private List<ICarteTransport> listeCartesTransport;
 
     private EventHandler<MouseEvent> Poser = event -> {
         IJeu jeu = ((VueDuJeu) getScene().getRoot()).getJeu();
@@ -63,6 +67,17 @@ public class VueCarteTransport extends Pane {
 
     }
 
+    public int getNombreCarteTransportIdentiques(int nbCartes){
+        for (ICarteTransport carte: listeCartesTransport){
+            if (carte.equals(this.carteTransport)){
+                nbCartes++;
+            }
+        }
+        return nbCartes;
+    }
+
+
+
     public ICarteTransport getCarteTransport() {
         return carteTransport;
     }
@@ -93,6 +108,8 @@ public class VueCarteTransport extends Pane {
         return str+".png";
 
     }
+
+
 
 
 
