@@ -3,6 +3,7 @@ package fr.umontpellier.iut.rails.vues;
 import fr.umontpellier.iut.rails.ICarteTransport;
 import fr.umontpellier.iut.rails.IDestination;
 import fr.umontpellier.iut.rails.IJeu;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
@@ -20,6 +21,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Cette classe correspond à la fenêtre principale de l'application.
@@ -72,44 +74,23 @@ public class VueDuJeu extends VBox {
     };
 
     private final ListChangeListener<ICarteTransport> listenerCarteTransport = change -> {
-        while (change.next()) {
-            if (change.wasAdded()) {
-                for (ICarteTransport iCarteTransport : change.getAddedSubList()) {
-                    VueCarteTransport vd = new VueCarteTransport(iCarteTransport,1);
-                    listeDestination.getChildren().add(vd);
-                    vd.getChildren().get(0).setOnMouseClicked(event -> {
-                        this.getJeu().uneCarteTransportAEteChoisie(vd.getCarteTransport());
-                    });
+        Platform.runLater(() -> {
+            List<? extends ICarteTransport> cardWagonVisibles = change.getList();
 
-                }
+            this.listeCarteTransport.getChildren().clear();
+            for(int i=0; i<cardWagonVisibles.size(); i++){
+                VueCarteTransport vcw = new VueCarteTransport(cardWagonVisibles.get(i),1);
+                this.listeCarteTransport.getChildren().addAll(vcw);
+
+                vcw.setOnMouseClicked(event -> {
+                    this.getJeu().uneCarteTransportAEteChoisie(vcw.getCarteTransport());
+                });
             }
-            else if (change.wasRemoved()) {
-                for (ICarteTransport iCarteTransport : change.getRemoved()) {
-                    VueCarteTransport node = new VueCarteTransport(iCarteTransport,1);
-                    if (node.getCarteTransport().equals(change.getRemoved().get(0))) {
-                        this.listeCarteTransport.getChildren().remove(node);
-                        break;
-                    }
-                }
-            }
-        }
+        });
     };
 
 
-
-    private IDestination destinationChoisi(VueDestination vueDestination) {
-        for (Node node : listeDestination.getChildren()) {
-            if (node instanceof VueDestination) {
-                VueDestination vueDestination1 = (VueDestination) node;
-                if (vueDestination1.equals(vueDestination)) {
-                    return vueDestination1.getDestination();
-                }
-            }
-        }
-        return null;
-    }
-
-    private final ChangeListener<String> textfield = new ChangeListener<String>() {
+    private final ChangeListener<String> listenerTextField = new ChangeListener<String>() {
         @Override
         public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
             if (newValue.equals("Saisissez un nombre de pions wagon entre 10 et 25")) {
@@ -271,7 +252,7 @@ public class VueDuJeu extends VBox {
 
 
 
-        jeu.instructionProperty().addListener(textfield);
+        jeu.instructionProperty().addListener(listenerTextField);
 
 
 
@@ -322,6 +303,8 @@ public class VueDuJeu extends VBox {
         plateau.prefWidthProperty().bind(getScene().widthProperty());
         plateau.prefHeightProperty().bind(getScene().heightProperty());
         plateau.creerBindings();
+
+
 
 
 
