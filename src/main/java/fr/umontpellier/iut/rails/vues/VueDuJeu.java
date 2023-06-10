@@ -109,7 +109,7 @@ public class VueDuJeu extends VBox {
 
     public VueDuJeu(IJeu jeu) {
         this.jeu = jeu;
-        plateau = new VuePlateau();
+        plateau = new VuePlateau(jeu);
         HBox plat = new HBox();
         this.setStyle("-fx-background-color: #C8AD7F");
         double borderWidth = 2.0;
@@ -206,6 +206,9 @@ public class VueDuJeu extends VBox {
         Label lblInstructions = new Label();
 
         lblInstructions.textProperty().bind(jeu.instructionProperty());
+        lblInstructions.setStyle("-fx-font-weight: Bold; -fx-font-size: 20px;");
+        lblInstructions.setPadding(new javafx.geometry.Insets(10, 10, 10, 10));
+
 
 
         listeDestination.setSpacing(40);

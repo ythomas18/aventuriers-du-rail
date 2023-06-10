@@ -3,12 +3,16 @@ package fr.umontpellier.iut.rails.vues;
 import fr.umontpellier.iut.rails.IJeu;
 import fr.umontpellier.iut.rails.IJoueur;
 import fr.umontpellier.iut.rails.mecanique.Joueur;
+import javafx.animation.FadeTransition;
+import javafx.animation.ScaleTransition;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,9 +58,11 @@ public class VueAutresJoueurs extends HBox {
                         }
                 });
                 setAlignment(Pos.CENTER);
-                setSpacing(5);
+
                 for(VueJoueur v : joueurs){
-                        v.setPadding(new Insets(5));
+
+                        v.setBorder(new Border(new BorderStroke(Color.BLACK,
+                                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
                 }
 
 
@@ -67,19 +73,110 @@ public class VueAutresJoueurs extends HBox {
 
                 Label nomJoueur;
 
+                VBox infosJoueur;
+
+                HBox imageXpseudo;
+
+                VBox pionsJoueur;
+
+                HBox pionsWagon;
+
+                HBox pionsBateau;
+
+                HBox ports;
+
+                HBox hboxscore;
+
                 String couleur;
                 ImageView imageJoueur;
 
+                private FadeTransition fadeTransition;
+
+
                 VueJoueur(IJoueur joueur){
                         this.joueur = joueur;
+                        this.infosJoueur = new VBox();
+                        this.imageXpseudo = new HBox();
+                        this.pionsWagon = new HBox();
+                        this.pionsBateau = new HBox();
+                        this.hboxscore = new HBox();
+                        this.pionsJoueur = new VBox();
+                        this.ports = new HBox();
                         this.nomJoueur = new Label(joueur.getNom());
+
                         String couleur = CouleurJoueur(joueur);
                         imageJoueur = new ImageView("/images/cartesWagons/avatar-"+joueur.getCouleur().toString()+".png");
-                        imageJoueur.setFitHeight(30);
+                        imageJoueur.setFitHeight(80);
                         imageJoueur.preserveRatioProperty().set(true);
-                        this.getChildren().addAll(imageJoueur,nomJoueur);
+
+                        ImageView logoPionWagon = new ImageView("/images/bouton-pions-wagon.png");
+                        logoPionWagon.setPreserveRatio(true);
+                        logoPionWagon.setFitHeight(20);
+
+                        ImageView logoPionBateau = new ImageView("/images/bouton-pions-bateau.png");
+                        logoPionBateau.setPreserveRatio(true);
+                        logoPionBateau.setFitHeight(20);
+
+                        ImageView logoPort= new ImageView("/images/port.png");
+                        logoPort.setPreserveRatio(true);
+                        logoPort.setFitHeight(20);
+
+                        Label scoredeuxpoints = new Label("Score : ");
+
+
+
+                        Label nbPionsWagonLabel = new Label();
+                        nbPionsWagonLabel.textProperty().bind(joueur.nbPionsWagonsProperty().asString());
+                        nbPionsWagonLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+
+                        Label nbPionsBateauLabel = new Label();
+                        nbPionsBateauLabel.textProperty().bind(joueur.nbPionsBateauxProperty().asString());
+                        nbPionsBateauLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+
+                        Label nbPortLabel= new Label();
+                        nbPortLabel.textProperty().bind(joueur.nbPortsProperty().asString());
+                        nbPortLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+
+                        Label scoreJoueur = new Label();
+                        scoreJoueur.textProperty().bind(joueur.scoreProperty().asString());
+                        scoreJoueur.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+
+                        pionsWagon.getChildren().addAll(logoPionWagon,nbPionsWagonLabel);
+                        pionsBateau.getChildren().addAll(logoPionBateau,nbPionsBateauLabel);
+                        ports.getChildren().addAll(logoPort,nbPortLabel);
+                        hboxscore.getChildren().addAll(scoredeuxpoints,scoreJoueur);
+
+                        pionsJoueur.getChildren().addAll(pionsWagon,pionsBateau,ports,hboxscore);
+                        imageXpseudo.getChildren().addAll(imageJoueur,nomJoueur);
+
+                        pionsJoueur.setVisible(false);
+
+
+
+                        imageXpseudo.setOnMouseEntered(event -> showPawnsVBox());
+                        imageXpseudo.setOnMouseExited(event -> hidePawnsVBox());
+
+                        infosJoueur.getChildren().addAll(imageXpseudo, pionsJoueur);
+
+
+
+                        this.getChildren().add(infosJoueur);
                         this.setStyle(couleur);
                         this.getImageJoueur().setFitHeight(100);
+
+                        fadeTransition = new FadeTransition(Duration.millis(100), pionsJoueur);
+                        fadeTransition.setFromValue(0.0);  // Transparence initiale
+                        fadeTransition.setToValue(1.0);    // Transparence complète
+                }
+
+                private void showPawnsVBox() {
+                        fadeTransition.play();
+                        pionsJoueur.setVisible(true);
+                }
+
+                private void hidePawnsVBox() {
+                        pionsJoueur.setVisible(false);
+                        fadeTransition.play();
                 }
 
                 String CouleurJoueur(IJoueur joueur){
@@ -99,6 +196,8 @@ public class VueAutresJoueurs extends HBox {
                                         return "-fx-background-color: #000000;";
                         }
                 }
+
+
 
                 public ImageView getImageJoueur(){
                         return this.imageJoueur;

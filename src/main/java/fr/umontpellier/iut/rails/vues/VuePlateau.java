@@ -1,5 +1,6 @@
 package fr.umontpellier.iut.rails.vues;
 
+import fr.umontpellier.iut.rails.IJeu;
 import fr.umontpellier.iut.rails.IRoute;
 import javafx.beans.binding.DoubleBinding;
 import javafx.event.EventHandler;
@@ -30,7 +31,9 @@ public class VuePlateau extends Pane {
     @FXML
     private ImageView mapMonde;
 
-    public VuePlateau() {
+    private IJeu jeu;
+
+    public VuePlateau(IJeu jeu) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/plateau.fxml"));
             loader.setRoot(this);
@@ -40,19 +43,20 @@ public class VuePlateau extends Pane {
             e.printStackTrace();
         }
         setMinSize(Screen.getPrimary().getBounds().getWidth()/3, Screen.getPrimary().getBounds().getHeight()/3) ;
+        this.jeu = jeu;
 
     }
 
     EventHandler<MouseEvent> choixRoute = event -> {
-        System.out.println("On a cliqué sur une route");
+        jeu.uneRouteAEteChoisie(String.valueOf(event.getSource()));
     };
 
     EventHandler<MouseEvent> choixPort = event -> {
-        System.out.println("On a cliqué sur un port");
+        jeu.unPortAEteChoisi(String.valueOf(event.getSource()));
     };
 
     public void creerBindings() {
- ajouterVilles();
+        ajouterVilles();
         ajouterPorts();
         ajouterRoutes();
         bindRedimensionEtCentragePlateau();
