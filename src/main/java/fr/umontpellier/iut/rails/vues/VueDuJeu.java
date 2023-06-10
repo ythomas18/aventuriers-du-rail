@@ -93,7 +93,7 @@ public class VueDuJeu extends VBox {
     private final ChangeListener<String> listenerTextField = new ChangeListener<String>() {
         @Override
         public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-            if (newValue.equals("Saisissez un nombre de pions wagon entre 10 et 25")) {
+            if (newValue.contains("Saisissez un nombre de pions")) {
                 saisieNombreDePions.visibleProperty().setValue(true);
             }
             else {
