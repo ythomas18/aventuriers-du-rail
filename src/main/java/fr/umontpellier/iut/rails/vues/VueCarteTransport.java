@@ -25,17 +25,12 @@ public class VueCarteTransport extends Pane {
 
     private List<ICarteTransport> listeCartesTransport;
 
-    private EventHandler<MouseEvent> Poser = event -> {
+    private EventHandler<MouseEvent> carteEstJouee = event -> {
         IJeu jeu = ((VueDuJeu) getScene().getRoot()).getJeu();
         VueCarteTransport source = (VueCarteTransport) event.getSource();
         jeu.uneCarteDuJoueurEstJouee(source.getCarteTransport());
     };
 
-    private EventHandler<MouseEvent> Piocher = event -> {
-        IJeu jeu = ((VueDuJeu) getScene().getRoot()).getJeu();
-        VueCarteTransport source = (VueCarteTransport) event.getSource();
-        jeu.uneCarteTransportAEteChoisie(source.getCarteTransport());
-    };
 
 
 
@@ -59,6 +54,8 @@ public class VueCarteTransport extends Pane {
 
         Pane carte = new Pane(imageCarte);
         carte.getChildren().add(stack);
+
+        this.setOnMouseClicked(carteEstJouee);
 
         this.getChildren().add(carte);
     }

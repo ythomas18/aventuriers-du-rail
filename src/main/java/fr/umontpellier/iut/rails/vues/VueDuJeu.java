@@ -234,6 +234,8 @@ public class VueDuJeu extends VBox {
 
         jeu.cartesTransportVisiblesProperty().addListener(listenerCarteTransport);
 
+
+
         saisieNombreDePions = new TextField();
 
 

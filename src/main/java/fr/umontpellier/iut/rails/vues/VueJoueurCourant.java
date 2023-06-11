@@ -185,7 +185,7 @@ public class VueJoueurCourant extends VBox {
 
 
         jeu.joueurCourantProperty().addListener((observableValue, ancienJoueur, nouveauJoueur) -> {
-            this.setStyle(CouleurJoueur(nouveauJoueur));
+            this.setStyle("-fx-background-color: " + RGB(couleurDuJoueur(nouveauJoueur)));
             afficheCarte();
 
         });
@@ -220,22 +220,28 @@ public class VueJoueurCourant extends VBox {
 
 
 
-    public String CouleurJoueur(IJoueur joueur){
-        IJoueur.CouleurJoueur couleurJoueur= joueur.getCouleur();
-        switch (couleurJoueur){
+    private Color couleurDuJoueur(IJoueur joueur) {
+        switch (joueur.getCouleur()) {
             case JAUNE:
-                return "-fx-background-color: #FFD700;";
+                return Color.BLUE;
             case ROUGE:
-                return "-fx-background-color: #f51832;";
+                return Color.RED;
             case BLEU:
-                return "-fx-background-color: #87CEFA;";
+                return Color.GREEN;
             case VERT:
-                return "-fx-background-color: #6B8E23;";
+                return Color.YELLOW;
             case ROSE:
-                return "-fx-background-color: #ffb9c7;";
+                return Color.PINK;
             default:
-                return "-fx-background-color: #000000;";
+                return Color.WHITE;
         }
+    }
+
+    private static String RGB(Color color) {
+        return String.format("#%02X%02X%02X",
+                (int) (color.getRed() * 255),
+                (int) (color.getGreen() * 255),
+                (int) (color.getBlue() * 255));
     }
 
 

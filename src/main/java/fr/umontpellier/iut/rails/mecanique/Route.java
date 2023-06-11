@@ -115,6 +115,15 @@ public abstract class Route implements IRoute {
         return proprietaire;
     }
 
+    @Override
+    public IJoueur getProprietaire() {
+        return proprietaire.get();
+    }
+
+    public void setProprietaire(IJoueur proprietaire) {
+        this.proprietaire.set(proprietaire);
+    }
+
     /**
      * Retourne true si la route peut être capturée par le joueur
      * On suppose que la route est disponible (pas déjà capturée)

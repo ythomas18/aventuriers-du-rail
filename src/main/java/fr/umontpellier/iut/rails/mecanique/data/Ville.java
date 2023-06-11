@@ -55,6 +55,10 @@ public final class Ville implements IVille {
         return proprietaire;
     }
 
+    public IJoueur getProprietaire() {
+        return proprietaire.get();
+    }
+
     public void setProprietaire(Joueur proprietaire) {
         this.proprietaire.set(proprietaire);
     }

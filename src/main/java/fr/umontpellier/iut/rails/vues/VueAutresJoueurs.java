@@ -104,7 +104,7 @@ public class VueAutresJoueurs extends HBox {
                         this.ports = new HBox();
                         this.nomJoueur = new Label(joueur.getNom());
 
-                        String couleur = CouleurJoueur(joueur);
+                        String couleur = joueur.getCouleur().toString();
                         imageJoueur = new ImageView("/images/cartesWagons/avatar-"+joueur.getCouleur().toString()+".png");
                         imageJoueur.setFitHeight(80);
                         imageJoueur.preserveRatioProperty().set(true);
@@ -162,7 +162,7 @@ public class VueAutresJoueurs extends HBox {
 
 
                         this.getChildren().add(infosJoueur);
-                        this.setStyle(couleur);
+                        this.setStyle("-fx-background-color: "+RGB(CouleurJoueur(joueur))+";");
                         this.getImageJoueur().setFitHeight(100);
                         this.setSpacing(10);
 
@@ -181,22 +181,28 @@ public class VueAutresJoueurs extends HBox {
                         fadeTransition.play();
                 }
 
-                String CouleurJoueur(IJoueur joueur){
-                        IJoueur.CouleurJoueur couleurJoueur= joueur.getCouleur();
-                        switch (couleurJoueur){
+                Color CouleurJoueur(IJoueur joueur){
+                        switch (joueur.getCouleur()) {
                                 case JAUNE:
-                                        return "-fx-background-color: #FFD700;";
+                                        return Color.BLUE;
                                 case ROUGE:
-                                        return "-fx-background-color: #f51832;";
+                                        return Color.RED;
                                 case BLEU:
-                                        return "-fx-background-color: #87CEFA;";
+                                        return Color.GREEN;
                                 case VERT:
-                                        return "-fx-background-color: #6B8E23;";
+                                        return Color.YELLOW;
                                 case ROSE:
-                                        return "-fx-background-color: #ffb9c7;";
+                                        return Color.PINK;
                                 default:
-                                        return "-fx-background-color: #000000;";
+                                        return Color.WHITE;
                         }
+                }
+
+                static String RGB(Color color) {
+                        return String.format("#%02X%02X%02X",
+                                (int) (color.getRed() * 255),
+                                (int) (color.getGreen() * 255),
+                                (int) (color.getBlue() * 255));
                 }
 
 
