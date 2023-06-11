@@ -201,7 +201,13 @@ public class VueDuJeu extends VBox {
         effet.setOffsetX(2);
         effet.setOffsetY(2);
         btnPasser.setEffect(effet);
-        btnPasser.setStyle("-fx-background-color: #4682B4;" + "-fx-font-weight: Bold;");
+        btnPasser.setStyle("-fx-background-color: #F6E7D4; -fx-background-radius: 5px;");
+        btnPasser.setOnMouseEntered(e -> {
+            btnPasser.setStyle("-fx-background-color: #FFE6C7; -fx-background-radius: 25px");
+        });
+        btnPasser.setOnMouseExited(e -> {
+            btnPasser.setStyle("-fx-background-color: #F6E7D4; -fx-background-radius: 25px");
+        });
 
 
         Label lblInstructions = new Label();

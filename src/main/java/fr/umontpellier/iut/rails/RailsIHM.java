@@ -25,7 +25,9 @@ public class RailsIHM extends Application {
     private Stage primaryStage;
     private Jeu jeu;
 
-    private final boolean avecVueChoixJoueurs = false;
+    private Stage choixJoueurs;
+
+    private final boolean avecVueChoixJoueurs = true;
 
     @Override
     public void start(Stage primaryStage) {
@@ -36,9 +38,12 @@ public class RailsIHM extends Application {
 
     public void debuterJeu() {
         if (avecVueChoixJoueurs) {
-            vueChoixJoueurs = new VueChoixJoueurs();
+            vueChoixJoueurs = new VueChoixJoueurs(this);
             vueChoixJoueurs.setNomsDesJoueursDefinisListener(quandLesNomsJoueursSontDefinis);
-            vueChoixJoueurs.show();
+            choixJoueurs = new Stage();
+            choixJoueurs.setScene(new Scene(vueChoixJoueurs));
+            choixJoueurs.setTitle("Les Aventuriers du Rails - Sélection des joueurs");
+            choixJoueurs.show();
         } else {
             demarrerPartie();
         }
