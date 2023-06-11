@@ -19,10 +19,14 @@ import java.util.Optional;
 public class RailsIHM extends Application {
 
     private VueChoixJoueurs vueChoixJoueurs;
+
+    private VueResultats vueResultats;
     private Stage primaryStage;
     private Jeu jeu;
 
     private Stage choixJoueurs;
+
+    private Stage resultatPartie;
 
     private final boolean avecVueChoixJoueurs = false;
 
@@ -73,25 +77,51 @@ public class RailsIHM extends Application {
         primaryStage.centerOnScreen();
         primaryStage.setMaxWidth(Screen.getPrimary().getBounds().getWidth());
         primaryStage.setMaxHeight(Screen.getPrimary().getBounds().getHeight());
+        primaryStage.setTitle("Rails");
+        primaryStage.centerOnScreen();
+        primaryStage.setMaxWidth(Screen.getPrimary().getBounds().getWidth());
+        primaryStage.setMaxHeight(Screen.getPrimary().getBounds().getHeight());
 
-        jeu.finDePartieProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
-                VueResultats test = new VueResultats(this);
-                Stage testStage = new Stage();
-                testStage.setScene(new Scene(test));
-            }
-        });
         primaryStage.setOnCloseRequest(event -> {
             this.arreterJeu();
             event.consume();
         });
         primaryStage.show();
+
+        this.getJeu().finDePartieProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+
+                resultatPartie = new Stage();
+                vueResultats = new VueResultats(this);
+                resultatPartie.setScene(new Scene(vueResultats));
+                resultatPartie.setTitle("Les Aventuriers du Rails - Résultats");
+
+                resultatPartie.show();
+
+                resultatPartie.setOnCloseRequest(event -> {
+                    this.arreterJeu();
+                    event.consume();
+                });
+
+
+            }
+        });
+
+
+
+
+
+
+
+
     }
 
     private final ListChangeListener<String> quandLesNomsJoueursSontDefinis = change -> {
         if (!vueChoixJoueurs.getNomsJoueurs().isEmpty())
             demarrerPartie();
     };
+
+
 
     public void arreterJeu() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
