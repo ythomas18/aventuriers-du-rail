@@ -7,7 +7,9 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -19,9 +21,17 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
+
+
+import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URL;
 import java.util.List;
+import java.awt.Desktop;
 
 /**
  * Cette classe correspond à la fenêtre principale de l'application.
@@ -121,6 +131,10 @@ public class VueDuJeu extends VBox {
         VBox vBox = new VBox();
         HBox deuxPartie = new HBox();
         HBox logo = new HBox();
+        HBox ajoutBouton= new HBox();
+
+
+
 
         ImageView logopiochebateau = new ImageView("images/cartesWagons/dos-BATEAU.png");
         logopiochebateau.setPreserveRatio(true);
@@ -195,6 +209,8 @@ public class VueDuJeu extends VBox {
 
         Label labelDestinationInitiale = new Label();
         Button btnPasser = new Button("Passer");
+        Button btnRegle= new Button("Règle du jeux");
+        btnRegle.setPrefSize(500,20);
         btnPasser.setPrefSize(500,20);
         DropShadow effet= new DropShadow();
         effet.setColor(Color.BLACK);
@@ -209,6 +225,28 @@ public class VueDuJeu extends VBox {
             btnPasser.setStyle("-fx-background-color: #F6E7D4; -fx-background-radius: 25px");
         });
 
+        btnRegle.setStyle("-fx-background-color: #F6E7D4; -fx-background-radius: 5px;");
+        btnRegle.setOnMouseEntered(e -> {
+            btnRegle.setStyle("-fx-background-color: #FFE6C7; -fx-background-radius: 25px");
+        });
+        btnRegle.setOnMouseExited(e -> {
+            btnRegle.setStyle("-fx-background-color: #F6E7D4; -fx-background-radius: 25px");
+        });
+        btnRegle.setEffect(effet);
+
+
+        btnRegle.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    File fichier= new File("src/main/resources/images/Aventuriers du rail autour du monde - Règles.pdf");
+                    Desktop.getDesktop().open(fichier);
+                }
+                catch (IOException ioException){
+                    ioException.printStackTrace();
+                }
+            }
+        });
 
         Label lblInstructions = new Label();
 
@@ -226,6 +264,8 @@ public class VueDuJeu extends VBox {
             jeu.passerAEteChoisi();
         };
 
+
+
         btnPasser.setOnMouseClicked(btnPasserHandlerClick);
 
 
@@ -240,11 +280,16 @@ public class VueDuJeu extends VBox {
 
 
 
+
+        ajoutBouton.getChildren().add(btnRegle);
+        //ajoutBouton.setSpacing(10);
+        ajoutBouton.setPadding(new Insets(5));
+        bas.setPadding(new Insets(5));
         bas.getChildren().add(btnPasser);
-        vBox.getChildren().addAll(bas, lblInstructions, saisieNombreDePions, listeDestination, listeCarteTransport);
+        vBox.getChildren().addAll(ajoutBouton,bas, lblInstructions, saisieNombreDePions, listeDestination, listeCarteTransport);
         vBox.setPadding(new javafx.geometry.Insets(10, 10, 10, 10));
 
-        vBox.setPrefSize(600, 300);
+        vBox.setPrefSize(800, 500);
 
         this.getChildren().add(deuxPartie);
 
@@ -284,6 +329,7 @@ public class VueDuJeu extends VBox {
     //this.setBackground(new Background(new BackgroundImage(new Image("images/fonds/papier_froise.png"), null, null , null, null)));
     // exemple coordonnées dans le dossier resources : "images/cartesWagons/avatar-BLEU.png"
     }
+
 
     public VueDestination removeDestination(IDestination destination) throws IOException {
         for(Node n : listeDestination.getChildren()){
