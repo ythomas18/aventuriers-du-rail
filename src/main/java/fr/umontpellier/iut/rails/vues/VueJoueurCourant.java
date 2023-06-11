@@ -1,6 +1,7 @@
 package fr.umontpellier.iut.rails.vues;
 
 import fr.umontpellier.iut.rails.ICarteTransport;
+import fr.umontpellier.iut.rails.IDestination;
 import fr.umontpellier.iut.rails.IJeu;
 import fr.umontpellier.iut.rails.IJoueur;
 import fr.umontpellier.iut.rails.IJoueur.CouleurJoueur;
@@ -20,6 +21,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.paint.Color;
 
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +45,8 @@ public class VueJoueurCourant extends VBox {
 
     private HBox nbPions;
 
+    private HBox cartesDestination;
+
     private SimpleIntegerProperty nbPionsWagon;
 
     private SimpleIntegerProperty nbPionsBateau;
@@ -50,7 +54,7 @@ public class VueJoueurCourant extends VBox {
     private SimpleIntegerProperty nbPort;
 
     private SimpleIntegerProperty score;
-
+    private VBox dest;
 
 
     public VueJoueurCourant(IJeu jeu) {
@@ -63,6 +67,8 @@ public class VueJoueurCourant extends VBox {
         this.nomJoueur.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
         this.nomJoueur.setAlignment(Pos.TOP_CENTER);
         this.CarteJoueurCourant= new HBox();
+        this.cartesDestination = new HBox();
+        this.dest = new VBox();
 
         CarteJoueurCourant.setSpacing(5);
 
@@ -187,6 +193,8 @@ public class VueJoueurCourant extends VBox {
         jeu.joueurCourantProperty().addListener((observableValue, ancienJoueur, nouveauJoueur) -> {
             this.setStyle("-fx-background-color: " + RGB(couleurDuJoueur(nouveauJoueur)));
             afficheCarte();
+            afficheDestination(nouveauJoueur);
+
 
         });
     }
@@ -208,6 +216,23 @@ public class VueJoueurCourant extends VBox {
             } else {
                 carteJoueurCourantLigne2.getChildren().add(carteTransport);
             }
+        }
+
+    }
+
+    public void afficheDestination(IJoueur joueur){
+        List<? extends IDestination> cartes = joueur.getDestinations();
+
+        dest = new VBox();
+
+        for(IDestination i : cartes){
+            VueDestination carteDestination = null;
+            try {
+                carteDestination = new VueDestination(i);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            dest.getChildren().add(carteDestination);
         }
 
     }

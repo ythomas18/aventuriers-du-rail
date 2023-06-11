@@ -596,6 +596,7 @@ public class Jeu implements IJeu {
         leJoueur.getEtatCourant().piocherBateau();
     }
 
+
     @Override
     public void nouvelleDestinationDemandee() {
         Joueur leJoueur = ((Joueur) joueurCourant.getValue());

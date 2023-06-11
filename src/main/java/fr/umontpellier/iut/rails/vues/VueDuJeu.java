@@ -30,6 +30,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.awt.Desktop;
 
@@ -157,6 +159,10 @@ public class VueDuJeu extends VBox {
         logopiochedestination.setPreserveRatio(true);
         logopiochedestination.setFitHeight(130);
 
+        logopiochedestination.setOnMouseClicked(mouseEvent -> {
+            this.getJeu().nouvelleDestinationDemandee();
+        });
+
 
         ImageView logoPionBateau = new ImageView("images/bouton-pions-bateau.png");
         logoPionBateau.setPreserveRatio(true);
@@ -239,7 +245,8 @@ public class VueDuJeu extends VBox {
             @Override
             public void handle(ActionEvent event) {
                 try {
-                    File fichier= new File("src/main/resources/images/Aventuriers du rail autour du monde - Règles.pdf");
+                    Path path = Paths.get("C:\\Users\\yannt\\IdeaProjects\\railsihm\\documents\\Aventuriers du rail autour du monde - Règles.pdf");
+                    File fichier= new File(path.toUri());
                     Desktop.getDesktop().open(fichier);
                 }
                 catch (IOException ioException){

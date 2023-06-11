@@ -1,10 +1,7 @@
 package fr.umontpellier.iut.rails;
 
 import fr.umontpellier.iut.rails.mecanique.Jeu;
-import fr.umontpellier.iut.rails.vues.DonneesGraphiques;
-import fr.umontpellier.iut.rails.vues.VueChoixJoueurs;
-import fr.umontpellier.iut.rails.vues.VueDuJeu;
-import fr.umontpellier.iut.rails.vues.VueJoueurCourant;
+import fr.umontpellier.iut.rails.vues.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
@@ -37,6 +34,8 @@ public class RailsIHM extends Application {
     }
 
     public void debuterJeu() {
+
+
         if (avecVueChoixJoueurs) {
             vueChoixJoueurs = new VueChoixJoueurs(this);
             vueChoixJoueurs.setNomsDesJoueursDefinisListener(quandLesNomsJoueursSontDefinis);
@@ -74,6 +73,14 @@ public class RailsIHM extends Application {
         primaryStage.centerOnScreen();
         primaryStage.setMaxWidth(Screen.getPrimary().getBounds().getWidth());
         primaryStage.setMaxHeight(Screen.getPrimary().getBounds().getHeight());
+
+        jeu.finDePartieProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                VueResultats test = new VueResultats(this);
+                Stage testStage = new Stage();
+                testStage.setScene(new Scene(test));
+            }
+        });
         primaryStage.setOnCloseRequest(event -> {
             this.arreterJeu();
             event.consume();
