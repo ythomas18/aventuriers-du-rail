@@ -60,9 +60,7 @@ public class VuePlateau extends Pane {
         }
         setMinSize(Screen.getPrimary().getBounds().getWidth() / 3, Screen.getPrimary().getBounds().getHeight() / 3);
         this.jeu = jeu;
-        for(IVille v : jeu.getPorts()){
-            //v.proprietaireProperty().addListener();
-        }
+
 
     }
 
@@ -92,13 +90,20 @@ public class VuePlateau extends Pane {
     }
 
     private void ajouterPorts() {
+        List<? extends IVille> listePorts = ((VueDuJeu) getScene().getRoot()).getJeu().getPorts();
         for (String nomPort : DonneesGraphiques.ports.keySet()) {
+            IVille port = listePorts.stream().filter(r -> r.getNom().equals(nomPort)).findAny().orElse(null);
             DonneesGraphiques.DonneesCerclesPorts positionPortSurPlateau = DonneesGraphiques.ports.get(nomPort);
             Circle cerclePort = new Circle(positionPortSurPlateau.centreX(), positionPortSurPlateau.centreY(), DonneesGraphiques.rayonInitial);
             cerclePort.setId(nomPort);
             getChildren().add(cerclePort);
             bindCerclePortAuPlateau(positionPortSurPlateau, cerclePort);
             cerclePort.setOnMouseClicked(choixPort);
+            port.proprietaireProperty().addListener(e -> {
+                if (port.proprietaireProperty() != null) {
+                    cerclePortPris(port.getNom(), port.getProprietaire());
+                }
+            });
         }
     }
 
@@ -116,7 +121,7 @@ public class VuePlateau extends Pane {
                 rectangleSegment.setOnMouseClicked(choixRoute);
                 route.proprietaireProperty().addListener(e -> {
                     if (route.proprietaireProperty() != null) {
-                        imagePourRoutePrise(route.getNom(), route.getProprietaire());
+                        rectangleRoutePrise(route.getNom(), route.getProprietaire());
                     }
                 });
                 bindRectangle(rectangleSegment, unSegment.getXHautGauche(), unSegment.getYHautGauche());
@@ -124,7 +129,7 @@ public class VuePlateau extends Pane {
         }
     }
 
-    public void imagePourRoutePrise(String routePrise, IJoueur joueur) {
+    public void rectangleRoutePrise(String routePrise, IJoueur joueur) {
         List<? extends IRoute> listeRoutes = ((VueDuJeu) getScene().getRoot()).getJeu().getRoutes();
         for (String nomRoute : DonneesGraphiques.routes.keySet()) {
             if (nomRoute.equals(routePrise)) {
@@ -143,6 +148,21 @@ public class VuePlateau extends Pane {
         }
     }
 
+    public void cerclePortPris(String portPris, IJoueur joueur){
+        for (String nomPort : DonneesGraphiques.ports.keySet()) {
+            if (nomPort.equals(portPris)) {
+                DonneesGraphiques.DonneesCerclesPorts positionPortSurPlateau = DonneesGraphiques.ports.get(nomPort);
+                Circle cerclePort = new Circle(positionPortSurPlateau.centreX(), positionPortSurPlateau.centreY(), DonneesGraphiques.rayonInitial);
+                cerclePort.setFill(couleurDuJoueur(joueur));
+                cerclePort.setStroke(Color.BLACK);
+                cerclePort.setStrokeWidth(2);
+                getChildren().add(cerclePort);
+                bindCerclePortAuPlateau(positionPortSurPlateau, cerclePort);
+            }
+        }
+
+    }
+
     private Color couleurDuJoueur(IJoueur joueur) {
         switch (joueur.getCouleur()) {
             case JAUNE:
@@ -158,7 +178,7 @@ public class VuePlateau extends Pane {
             default:
                 return Color.WHITE;
         }
-
+        
     }
 
     private void bindRedimensionEtCentragePlateau() {
